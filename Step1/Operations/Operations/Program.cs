@@ -68,9 +68,9 @@ void Div(int a, int b)
         int result = a / b;
         Console.WriteLine(result);
     }
-    catch 
+    catch(DivideByZeroException) 
     {
-        Console.WriteLine("Возникло исключение.");
+        Console.WriteLine("Возникло исключение: деление на 0.");
     }
 }
 enum Numbers
