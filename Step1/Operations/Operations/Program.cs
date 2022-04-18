@@ -1,45 +1,46 @@
-﻿int X, Y;
+﻿
+int X, Y;
 Console.Write("Введите первое число: ");
 string x = Console.ReadLine();
-try 
+Numbers numbers;
+if (Enum.TryParse(x.ToLower(), out numbers))
 {
-    X = (int)System.Enum.Parse(typeof(Numbers), x, true);
+    X = (int)numbers;
 }
-catch (Exception)
+else
 {
-    Console.WriteLine("Неккоретные данные. Присвоенно 0");
-    X = 0;  
+    Console.WriteLine("Неудача. По умолчанию 0");
+    X = 0;
 }
 Console.Write("Введите второе число: ");
 string y = Console.ReadLine();
-try
+if (Enum.TryParse(y.ToLower(), out numbers))
 {
-    Y = (int)System.Enum.Parse(typeof(Numbers), y, true);
+    Y = (int)numbers;
 }
-catch (Exception)
+else
 {
-    Console.WriteLine("Неккоретные данные. Присвоенно 0");
+    Console.WriteLine("Неудача. По умолчанию 0");
     Y = 0;
 }
 Console.Write("Введите операцию (+, -, *, /): ");
 string operation = Console.ReadLine();
-
-
 Console.WriteLine("Первое число: " + X + " Второе число: " + Y);
 
-switch (operation) 
+Operations.Oper op = new();
+switch (operation)
 {
     case "+":
-        Sum(X, Y);
+        op.Sum(X, Y);
         break;
     case "-":
-        Sub(X, Y);
+        op.Sub(X, Y);
         break;
     case "*":
-        Mult(X, Y);
+        op.Mult(X, Y);
         break;
     case "/":
-        Div(X, Y);
+        op.Div(X, Y);
         break;
     default:
         Console.WriteLine("Название операции указано неккоректно");
@@ -47,42 +48,17 @@ switch (operation)
 
 }
 
-void Sum(int a, int b){
-    int result = a + b;
-    Console.WriteLine(result);
-}
-void Sub(int a, int b)
-{
-    int result = a - b;
-    Console.WriteLine(result);
-}
-void Mult(int a, int b)
-{
-    int result = a * b;
-    Console.WriteLine(result);
-}
-void Div(int a, int b)
-{
-    try
-    {
-        int result = a / b;
-        Console.WriteLine(result);
-    }
-    catch(DivideByZeroException) 
-    {
-        Console.WriteLine("Возникло исключение: деление на 0.");
-    }
-}
+
 enum Numbers
 {
-    Zero,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine
+    zero,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine
 }
