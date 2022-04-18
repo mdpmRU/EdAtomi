@@ -1,9 +1,11 @@
-﻿
+﻿using Operations;
+
+Arithm arithm = new();
 int X, Y;
 Console.Write("Введите первое число: ");
 string x = Console.ReadLine();
 Numbers numbers;
-if (Enum.TryParse(x.ToLower(), out numbers))
+if (Enum.TryParse(x[0].ToString().ToUpper() + x.Substring(1), out numbers))
 {
     X = (int)numbers;
 }
@@ -14,7 +16,7 @@ else
 }
 Console.Write("Введите второе число: ");
 string y = Console.ReadLine();
-if (Enum.TryParse(y.ToLower(), out numbers))
+if (Enum.TryParse(y[0].ToString().ToUpper() + y.Substring(1), out numbers))
 {
     Y = (int)numbers;
 }
@@ -24,41 +26,35 @@ else
     Y = 0;
 }
 Console.Write("Введите операцию (+, -, *, /): ");
-string operation = Console.ReadLine();
+string op = Console.ReadLine();
 Console.WriteLine("Первое число: " + X + " Второе число: " + Y);
-
-Operations.Oper op = new();
-switch (operation)
+if (arithm.IsValidOper(op))
 {
-    case "+":
-        op.Sum(X, Y);
-        break;
-    case "-":
-        op.Sub(X, Y);
-        break;
-    case "*":
-        op.Mult(X, Y);
-        break;
-    case "/":
-        op.Div(X, Y);
-        break;
-    default:
-        Console.WriteLine("Название операции указано неккоректно");
-        break;
-
+    if(op == "/" && Y == 0)
+    {
+        Console.WriteLine("Ошибка деления на ноль");
+    }
+    else
+    {
+        Console.WriteLine(arithm.Calcullate(op, X, Y));
+    }
+}
+else
+{
+    Console.WriteLine("Операция не найдена");
 }
 
 
 enum Numbers
 {
-    zero,
-    one,
-    two,
-    three,
-    four,
-    five,
-    six,
-    seven,
-    eight,
-    nine
+    Zero,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine
 }
