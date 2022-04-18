@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\AtomiSoft\\Step1\\Operations\\Operations\\Operations.csproj",
+      "projectUniqueName": "D:\\AtomiSoft\\EdAtomi\\Step1\\Operations\\Operations\\Operations.csproj",
       "projectName": "Operations",
-      "projectPath": "D:\\AtomiSoft\\Step1\\Operations\\Operations\\Operations.csproj",
+      "projectPath": "D:\\AtomiSoft\\EdAtomi\\Step1\\Operations\\Operations\\Operations.csproj",
       "packagesPath": "C:\\Users\\Kelev\\.nuget\\packages\\",
-      "outputPath": "D:\\AtomiSoft\\Step1\\Operations\\Operations\\obj\\",
+      "outputPath": "D:\\AtomiSoft\\EdAtomi\\Step1\\Operations\\Operations\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Kelev\\AppData\\Roaming\\NuGet\\NuGet.Config",

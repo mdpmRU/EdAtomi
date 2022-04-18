@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BKJlyNdTC0Y2NKxu7vpQd+UV62H2gvfidPEBf2EzkkTut7DoK2vPXYfGVxl+6SE+kL6OaFDmRTVF3V05B/uR7A==",
+  "dgSpecHash": "rZR/uUfki5Cn93hxEFDY6cvjNXXI4+8gEAwXlX3R+lRdHEd2HDsOXVEADcm70U19sIDKSUj2X7ElrFVGx4aR0w==",
   "success": true,
-  "projectFilePath": "D:\\AtomiSoft\\Step1\\Operations\\Operations\\Operations.csproj",
+  "projectFilePath": "D:\\AtomiSoft\\EdAtomi\\Step1\\Operations\\Operations\\Operations.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

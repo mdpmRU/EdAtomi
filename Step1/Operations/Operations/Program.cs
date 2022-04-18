@@ -1,13 +1,30 @@
-﻿Console.Write("Введите первое число: ");
+﻿int X, Y;
+Console.Write("Введите первое число: ");
 string x = Console.ReadLine();
+try 
+{
+    X = (int)System.Enum.Parse(typeof(Numbers), x, true);
+}
+catch (Exception)
+{
+    Console.WriteLine("Неккоретные данные. Присвоенно 0");
+    X = 0;  
+}
 Console.Write("Введите второе число: ");
 string y = Console.ReadLine();
+try
+{
+    Y = (int)System.Enum.Parse(typeof(Numbers), y, true);
+}
+catch (Exception)
+{
+    Console.WriteLine("Неккоретные данные. Присвоенно 0");
+    Y = 0;
+}
 Console.Write("Введите операцию (+, -, *, /): ");
 string operation = Console.ReadLine();
-int X , Y;
 
-X = (int)System.Enum.Parse(typeof(Numbers), x, true);
-Y = (int)System.Enum.Parse(typeof(Numbers), y, true);
+
 Console.WriteLine("Первое число: " + X + " Второе число: " + Y);
 
 switch (operation) 
@@ -24,6 +41,10 @@ switch (operation)
     case "/":
         Div(X, Y);
         break;
+    default:
+        Console.WriteLine("Название операции указано неккоректно");
+        break;
+
 }
 
 void Sum(int a, int b){
