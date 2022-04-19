@@ -1,33 +1,35 @@
 ﻿using Operations;
 
-Arithm arithm = new();
+ArithmParse arithm = new();
 int X, Y;
+
 Console.Write("Введите первое число: ");
 string x = Console.ReadLine();
-Numbers numbers;
-if (Enum.TryParse(x[0].ToString().ToUpper() + x.Substring(1), out numbers))
+if (arithm.NumReader(x, out X))
 {
-    X = (int)numbers;
+    Console.WriteLine("Число успешно распознано");
 }
 else
 {
-    Console.WriteLine("Неудача. По умолчанию 0");
-    X = 0;
+    Console.WriteLine("Неудачно. По умолчанию 0");
 }
+
 Console.Write("Введите второе число: ");
 string y = Console.ReadLine();
-if (Enum.TryParse(y[0].ToString().ToUpper() + y.Substring(1), out numbers))
+if(arithm.NumReader(y, out Y))
 {
-    Y = (int)numbers;
+    Console.WriteLine("Число успешно распознано");
 }
 else
 {
-    Console.WriteLine("Неудача. По умолчанию 0");
-    Y = 0;
+    Console.WriteLine("Неудачно. По умолчанию 0");
 }
+
 Console.Write("Введите операцию (+, -, *, /): ");
 string op = Console.ReadLine();
+
 Console.WriteLine("Первое число: " + X + " Второе число: " + Y);
+
 if (arithm.IsValidOper(op))
 {
     if(op == "/" && Y == 0)
@@ -42,19 +44,4 @@ if (arithm.IsValidOper(op))
 else
 {
     Console.WriteLine("Операция не найдена");
-}
-
-
-enum Numbers
-{
-    Zero,
-    One,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine
 }
