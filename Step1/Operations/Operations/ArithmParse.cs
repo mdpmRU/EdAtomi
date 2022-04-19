@@ -24,10 +24,10 @@ namespace Operations
             }
         }
 
-        readonly string[] op = { "+", "-", "*", "/" };
+        private readonly string[] _op = { "+", "-", "*", "/" };
         public bool IsValidOper(string op_)
         {
-            if (op_ != op[0] && op_ != op[1] && op_ != op[2] && op_ != op[3])
+            if (op_ != _op[0] && op_ != _op[1] && op_ != _op[2] && op_ != _op[3])
                 return false;
             return true;
         }
@@ -44,43 +44,29 @@ namespace Operations
             };
         }
 
-        public int Sum(int a, int b)
-        {
+        private static int Sum(int a, int b)
+        {   
             int result = a + b;
             return result;
         }
 
-        public int Sub(int a, int b)
+        private static int Sub(int a, int b)
         {
             int result = a - b;
             return result;
         }
 
-        public int Mult(int a, int b)
+        private static int Mult(int a, int b)
         {
             int result = a * b;
             return result;
         }
 
-        public int Div(int a, int b)
+        private static int Div(int a, int b)
         {
             int result = a / b;
             return result;
         }
-    }
-
-    enum Numbers
-    {
-        Zero,
-        One,
-        Two,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight,
-        Nine
     }
 }
 
