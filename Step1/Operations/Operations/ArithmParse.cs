@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Operations
 {
 
-    public class Arithm
+    public class ArithmParse
     {
         public bool NumReader(string Num, out int num)
         {
