@@ -9,6 +9,7 @@ namespace Operations
 
     public class ArithmParse
     {
+        private readonly string[] _op = { "+", "-", "*", "/" };
         public bool NumReader(string Num, out int num)
         {
             Numbers numbers;
@@ -24,7 +25,6 @@ namespace Operations
             }
         }
 
-        private readonly string[] _op = { "+", "-", "*", "/" };
         public bool IsValidOper(string op_)
         {
             if (op_ != _op[0] && op_ != _op[1] && op_ != _op[2] && op_ != _op[3])
