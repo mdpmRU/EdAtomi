@@ -10,16 +10,15 @@ namespace DT
     {
         private static readonly string[] Formats = { "d", "D", "F", "f", "G", "g", "M", "O", "R", "s", "T", "t", "U", "u", "Y", "y" };
         private readonly DateTime _dt;
+        private string _selectedformat = Formats[0];
+
         public WorkWithDate(DateTime dt)
         {
             _dt = dt;
             IsTimeInFuture = DateTime.Compare(_dt, DateTime.Now) > 0;
         }
 
-
-        private string _selectedformat = Formats[0];
-
-        public string DTformat
+        public string DTFormat
         {
             get => _selectedformat;
             set => _selectedformat = IsFormat(value) ? value : Formats[0];
@@ -27,17 +26,15 @@ namespace DT
 
         public bool IsTimeInFuture { get; }
 
-        public int SumNowDate => Sum(_dt);
+        public double SumNowDate => Sum(_dt);
 
-        public bool Compare(WorkWithDate date1)
+        public bool Compare(WorkWithDate other)
         {
-            return SumNowDate > date1.SumNowDate;
+            return SumNowDate > other.SumNowDate;
         }
 
         private static bool IsFormat(string input)
         {
-            //if (input.Length != 1)
-            //    return false;
             foreach (var format in Formats)
                 if (input == format)
                     return true;
@@ -45,18 +42,15 @@ namespace DT
             return false;
         }
 
-        private int Sum(DateTime input)
+        private double Sum(DateTime input)
         {
             var str = input.ToString(_selectedformat);
-            var sum = 0;
-            foreach (var ch in str)
-                if (char.IsDigit(ch))
-                    sum += int.Parse(ch.ToString());
+            var sum = str
+                .Where(char.IsDigit)
+                .Select(char.GetNumericValue)
+                .Sum();
 
             return sum;
         }
-
-
-
     }
 }

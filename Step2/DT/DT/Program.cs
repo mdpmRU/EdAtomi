@@ -11,7 +11,7 @@ WorkWithDate wwd = new WorkWithDate(dateTime);
 WorkWithDate wwd2 = new WorkWithDate(dateTime2);
 
 Console.WriteLine(wwd.SumNowDate);
-wwd.DTformat = "G";
+wwd.DTFormat = "G";
 Console.WriteLine(wwd.SumNowDate);
 
 Console.WriteLine(wwd.Compare(wwd2));
