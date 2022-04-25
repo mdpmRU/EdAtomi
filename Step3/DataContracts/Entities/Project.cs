@@ -12,7 +12,7 @@ namespace DataContracts.Entities
 
         public DateTime ExpirationDate { get; set; }
 
-        public DateTime MaxHours { get; set; }
+        public int MaxHours { get; set; }
 
         public int LeaderUserId { get; set; }
     }

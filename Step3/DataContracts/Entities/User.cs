@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataContracts.Entities.Enumerations;
 
 namespace DataContracts.Entities
 {
@@ -16,8 +17,7 @@ namespace DataContracts.Entities
 
         public bool IsActive { get; set; }
 
-        public string AccessRole { get; set; }
-
-
+        public Role AccessRole;
     }
 }
+    

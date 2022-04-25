@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace DataContracts.Entities
 {
-    public class TimeTracEntry : BaseEntity
+    public class TimeTrackEntry : BaseEntity
     {
 
         public int UserId { get; set; }
 
         public int ProjectId { get; set; }
 
-        public DateTime Value { get; set; }
+        public int Value { get; set; }
 
         public DateTime Date { get; set; }
     }

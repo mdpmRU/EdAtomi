@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataContracts.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         public int Id { get; set; }
 
-        public string Comment { get; set; } // Инфо
+        public string Comment { get; set; } 
     }
 }
