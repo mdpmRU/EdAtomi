@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataContracts.Entities.Enumerations
 {
-    internal enum Role
+    public enum Role
     {
         User,
         Leader,

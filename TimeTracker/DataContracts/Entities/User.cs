@@ -7,7 +7,7 @@ using DataContracts.Entities.Enumerations;
 
 namespace DataContracts.Entities
 {
-    internal class User : BaseEntity
+    public class User : BaseEntity
     {
         public string Username { get; set; }
 
