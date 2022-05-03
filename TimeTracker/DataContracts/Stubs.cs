@@ -61,16 +61,25 @@ namespace DataContracts
                 Username = "Man"
 
             },
-
             new User()
             {
-            Id = 2,
-            AccessRole = Role.User,
-            FullName = "Human2",
-            IsActive = false,
-            Password = "123",
-            Username = "Wowan"
+                Id = 2,
+                AccessRole = Role.User,
+                FullName = "Human2",
+                IsActive = false,
+                Password = "123",
+                Username = "Wowan"
+            },
+            new User()
+            {
+                Id = 3,
+                AccessRole = Role.User,
+                FullName = "Human3",
+                IsActive = true,
+                Password = "123",
+                Username = "Wowan"
             }
+
         };
 
         public static List<TimeTrackEntry> TimeTrackEntrys = new List<TimeTrackEntry>()
@@ -78,10 +87,19 @@ namespace DataContracts
             new TimeTrackEntry()
             {
                 Id = 1,
-                Comment = "Успешно",
+                Comment = "Успешно1",
                 Date = DateTime.Today,
                 ProjectId = 1,
                 UserId = 1,
+                Value = 12
+            },
+            new TimeTrackEntry()
+            {
+                Id = 2,
+                Comment = "Успешно 3",
+                Date = DateTime.Today,
+                ProjectId = 1,
+                UserId = 3,
                 Value = 12
             },
             new TimeTrackEntry()

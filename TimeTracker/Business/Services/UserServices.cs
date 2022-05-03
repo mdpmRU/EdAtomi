@@ -17,6 +17,16 @@ namespace Business.Services
             return user;
         }
 
+        public IEnumerable<User> GetUsersForProject(int idProject, int time = 1)
+        {
+            var users = from ent in Stubs.TimeTrackEntrys
+                where ent.ProjectId == idProject && ent.Value >= time
+                from us in Stubs.Users
+                where us.Id == ent.UserId
+                select us;
+            return users;
+        }
+
         public UserData GetUserData(int userID)
         {
 
