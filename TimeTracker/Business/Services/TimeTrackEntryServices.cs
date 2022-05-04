@@ -12,7 +12,7 @@ namespace Business.Services
     {
         public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry()
         {
-            return Stubs.TimeTrackEntrys;
+            return Stubs.TimeTrackEntries;
         }
     }
 }

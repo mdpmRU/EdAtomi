@@ -17,11 +17,11 @@ namespace DataContracts
                 return user;
             return user;
         }
-        public TimeTrackEntry UpdateTTE(TimeTrackEntry TTE)
+        public TimeTrackEntry UpdateTimeTrackEntry(TimeTrackEntry timeTrackEntry)
         {
-            if (TTE != null)
-                return TTE;
-            return TTE;
+            if (timeTrackEntry != null)
+                return timeTrackEntry;
+            return timeTrackEntry;
         }
 
 
@@ -82,7 +82,7 @@ namespace DataContracts
 
         };
 
-        public static List<TimeTrackEntry> TimeTrackEntrys = new List<TimeTrackEntry>()
+        public static List<TimeTrackEntry> TimeTrackEntries = new List<TimeTrackEntry>()
         {
             new TimeTrackEntry()
             {

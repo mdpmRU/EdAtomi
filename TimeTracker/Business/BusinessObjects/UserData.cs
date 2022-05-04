@@ -10,13 +10,13 @@ namespace Business.BusinessObjects
 {
     public class UserData
     {
+        private Stubs _stubs = new Stubs();
         public UserData(User user)
         {
             User = user;
             
         }
 
-        private Stubs stubs = new Stubs();
         public User User { get; set ; }
 
         public List<TimeTrackEntry> SubmittedTime { get; set; }
@@ -26,16 +26,16 @@ namespace Business.BusinessObjects
 
         public void UpdateUser(User user)
         {
-            stubs.UpdateUser(user);
+            _stubs.UpdateUser(user);
             IsActiveChanged.Invoke("User update");
         }
 
         public void UpdateTimeTrackEntry(List<TimeTrackEntry> list)
         {
             SubmittedTime = new List<TimeTrackEntry>(list);
-            foreach (var TTE in SubmittedTime)
+            foreach (var timeTrackEntry in SubmittedTime)
             {
-                stubs.UpdateTTE(TTE);
+                _stubs.UpdateTimeTrackEntry(timeTrackEntry);
             }
             IsActiveChanged.Invoke("TimeTrackEntry list update");
         }

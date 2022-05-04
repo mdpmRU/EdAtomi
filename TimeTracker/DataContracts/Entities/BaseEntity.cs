@@ -13,3 +13,4 @@ namespace DataContracts.Entities
         public string Comment { get; set; } 
     }
 }
+    

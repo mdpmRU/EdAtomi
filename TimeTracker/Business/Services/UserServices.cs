@@ -13,29 +13,28 @@ namespace Business.Services
 
         public IEnumerable<User> GetAllActiveUsers()
         {
-            var user = from u in Stubs.Users where u.IsActive == true select u;
+            var user = Stubs.Users.Where(u => u.IsActive);
             return user;
         }
 
         public IEnumerable<User> GetUsersForProject(int idProject, int time = 1)
         {
-            var users = from ent in Stubs.TimeTrackEntrys
-                where ent.ProjectId == idProject && ent.Value >= time
-                from us in Stubs.Users
-                where us.Id == ent.UserId
-                select us;
+            var users = Stubs.TimeTrackEntries.Where(ent => ent.ProjectId == idProject && ent.Value >= time)
+                .SelectMany(ent => Stubs.Users, (ent, us) => new {ent, us})
+                .Where(@t => @t.us.Id == @t.ent.UserId)
+                .Select(@t => @t.us);
             return users;
         }
 
         public UserData GetUserData(int userID)
         {
 
-            var user = (from us in Stubs.Users where us.Id == userID select us).First();
-            var TTEUser= from TTE in Stubs.TimeTrackEntrys where TTE.UserId == user.Id select TTE;
+            var user = (Stubs.Users.Where(us => us.Id == userID)).First();
+            var timeTrackEntryUser = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
                 User = user,
-                SubmittedTime = new List<TimeTrackEntry>(TTEUser)
+                SubmittedTime = new List<TimeTrackEntry>(timeTrackEntryUser)
             };
             return userData;
         }
