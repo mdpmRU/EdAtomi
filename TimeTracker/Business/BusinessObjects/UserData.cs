@@ -24,12 +24,6 @@ namespace Business.BusinessObjects
         public delegate void IsChanged(string msg);
         public event IsChanged IsActiveChanged;
 
-        public void UpdateUser(User user)
-        {
-            _stubs.UpdateUser(user);
-            IsActiveChanged.Invoke("User update");
-        }
-
         public void UpdateTimeTrackEntry(List<TimeTrackEntry> list)
         {
             SubmittedTime = new List<TimeTrackEntry>(list);

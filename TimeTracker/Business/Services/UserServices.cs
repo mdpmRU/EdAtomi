@@ -44,12 +44,6 @@ namespace Business.Services
             var oldUserData = GetUserData(userData.User.Id);
             oldUserData.IsActiveChanged += Ex;
 
-            if (oldUserData.User != userData.User)
-            {
-                //update user in stubs
-                oldUserData.UpdateUser(userData.User);
-            }
-
             if (oldUserData != userData)
             {
                 //update list in stubs
