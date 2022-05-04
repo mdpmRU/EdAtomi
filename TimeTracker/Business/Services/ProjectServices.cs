@@ -10,7 +10,7 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        public IEnumerable<Project> GetAllUsers()
+        public IEnumerable<Project> GetAllProjects()
         {
             return Stubs.Projects;
         }
