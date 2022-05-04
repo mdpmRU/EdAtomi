@@ -6,6 +6,7 @@ namespace Business.Services
 {
     public class UserServices
     {
+            
         public IEnumerable<User> GetAllUsers()
         {
             return Stubs.Users;
@@ -20,7 +21,7 @@ namespace Business.Services
         public IEnumerable<User> GetUsersForProject(int idProject, int time = 1)
         {
             var users = Stubs.TimeTrackEntries.Where(ent => ent.ProjectId == idProject && ent.Value >= time)
-                .SelectMany(ent => Stubs.Users, (ent, us) => new {ent, us})
+                .SelectMany(ent => Stubs.Users, (ent, us) => new { ent, us })
                 .Where(@t => @t.us.Id == @t.ent.UserId)
                 .Select(@t => @t.us);
             return users;
@@ -39,21 +40,28 @@ namespace Business.Services
             return userData;
         }
 
+        public delegate void Message(string msg);
+
+        public event Message OutMessage;
+
         public void UpdateUserData(UserData userData)
         {
             var oldUserData = GetUserData(userData.User.Id);
-            oldUserData.IsActiveChanged += Ex;
-
-            if (oldUserData != userData)
+            if (userData.User.IsActive != true)
+                OutMessage.Invoke("Пользователь не активен. Обновление данных не требуется");
+            else
             {
-                //update list in stubs
-                oldUserData.UpdateTimeTrackEntry(userData.SubmittedTime);
+                oldUserData.IsActiveChanged += Ex;
+                if (oldUserData != userData)
+                {
+                    oldUserData.SubmitTimeTrack(userData.SubmittedTime);
+                }
             }
         }
 
         public void Ex(string msg)
         {
-            Console.WriteLine(msg);
+            OutMessage.Invoke(msg);
         }
     }
 }

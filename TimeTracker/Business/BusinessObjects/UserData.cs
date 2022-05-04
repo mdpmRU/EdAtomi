@@ -24,7 +24,7 @@ namespace Business.BusinessObjects
         public delegate void IsChanged(string msg);
         public event IsChanged IsActiveChanged;
 
-        public void UpdateTimeTrackEntry(List<TimeTrackEntry> list)
+        public void SubmitTimeTrack(List<TimeTrackEntry> list)
         {
             SubmittedTime = new List<TimeTrackEntry>(list);
             foreach (var timeTrackEntry in SubmittedTime)
@@ -36,4 +36,4 @@ namespace Business.BusinessObjects
 
         
     }
-}
+}   
