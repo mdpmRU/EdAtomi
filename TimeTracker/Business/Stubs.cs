@@ -11,19 +11,6 @@ namespace DataContracts
 {
     public class Stubs
     {
-        public User UpdateUser(User user)
-        {
-            if (user != null)
-                return user;
-            return user;
-        }
-        public TimeTrackEntry UpdateTimeTrackEntry(TimeTrackEntry timeTrackEntry)
-        {
-            if (timeTrackEntry != null)
-                return timeTrackEntry;
-            return timeTrackEntry;
-        }
-
 
         public static List<Project> Projects = new List<Project>()
         {
@@ -112,6 +99,12 @@ namespace DataContracts
             Value = 13
             }
         };
+        public TimeTrackEntry UpdateTimeTrackEntry(TimeTrackEntry timeTrackEntry)
+        {
+            if (timeTrackEntry != null)
+                return timeTrackEntry;
+            return timeTrackEntry;
+        }
 
     }
 }
