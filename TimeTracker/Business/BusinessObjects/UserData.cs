@@ -40,29 +40,6 @@ namespace Business.BusinessObjects
             IsActiveChanged.Invoke("TimeTrackEntry list update");
         }
 
-        //public void UpdateUserData(UserData userData)
-        //{
-        //    Stubs stubs = new Stubs();
-        //    if (userData == null)
-        //        return;
-
-        //    if (User != userData.User)
-        //    {
-        //        User = userData.User;
-        //        stubs.UpdateUser(userData.User);
-        //        IsActiveChanged.Invoke();
-        //    }
-
-        //    if (SubmittedTime != userData.SubmittedTime)
-        //    {
-        //        SubmittedTime = userData.SubmittedTime;
-        //        foreach (var TTE in SubmittedTime)
-        //        {
-        //            stubs.UpdateTTE(TTE);
-        //        }
-        //        IsActiveChanged.Invoke();
-        //    }
-
-        //}
+        
     }
 }

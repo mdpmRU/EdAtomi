@@ -17,7 +17,7 @@ namespace DataContracts.Entities
 
         public bool IsActive { get; set; }
 
-        public Role AccessRole;
+        public Role AccessRole { get; set; }
     }
 }
     
