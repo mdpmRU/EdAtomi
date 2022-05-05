@@ -40,9 +40,6 @@ namespace Business.Services
             return userData;
         }
 
-        public delegate void Message(string msg);
-
-        public event Message OutMessage;
 
         public void UpdateUserData(UserData userData)
         {
