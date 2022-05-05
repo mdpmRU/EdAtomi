@@ -10,7 +10,6 @@ namespace Business.BusinessObjects
 {
     public class UserData
     {
-        private Stubs _stubs = new Stubs();
         public UserData(User user)
         {
             User = user;
