@@ -51,7 +51,7 @@ namespace Business.Services
                 OutMessage.Invoke("Пользователь не активен. Обновление данных не требуется");
             else
             {
-                oldUserData.IsActiveChanged += Ex;
+                oldUserData.SubmittedTimeChanged += Ex;
                 if (oldUserData != userData)
                 {
                     oldUserData.SubmitTimeTrack(userData.SubmittedTime);
