@@ -6,7 +6,9 @@ namespace Business.Services
 {
     public class UserServices
     {
-            
+        public delegate void ExceptionEventHandler(string msg);
+        public event ExceptionEventHandler? Exception;
+
         public IEnumerable<User> GetAllUsers()
         {
             return Stubs.Users;
@@ -31,37 +33,24 @@ namespace Business.Services
         {
 
             var user = (Stubs.Users.Where(us => us.Id == userID)).First();
-            var timeTrackEntryUser = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
+            var timeTrackEntries = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
-                User = user,
-                SubmittedTime = new List<TimeTrackEntry>(timeTrackEntryUser)
+                SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
             };
             return userData;
         }
 
-        public delegate void Message(string msg);
-
-        public event Message OutMessage;
-
-        public void UpdateUserData(UserData userData)
+        public void UpdateUserData(UserData userData, int projectId, int hours, string comment = "")
         {
-            var oldUserData = GetUserData(userData.User.Id);
-            if (userData.User.IsActive != true)
-                OutMessage.Invoke("Пользователь не активен. Обновление данных не требуется");
-            else
+            try
             {
-                oldUserData.SubmittedTimeChanged += Ex;
-                if (oldUserData != userData)
-                {
-                    oldUserData.SubmitTimeTrack(userData.SubmittedTime);
-                }
+                userData.SubmitTime(projectId, hours, comment);
             }
-        }
-
-        public void Ex(string msg)
-        {
-            OutMessage.Invoke(msg);
+            catch (Exception exception)
+            {
+                Exception.Invoke(exception.Message);
+            }
         }
     }
 }

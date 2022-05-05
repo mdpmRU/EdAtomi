@@ -74,7 +74,7 @@ namespace DataContracts
             new TimeTrackEntry()
             {
                 Id = 1,
-                Comment = "Успешно1",
+                Comment = "Успешно 1",
                 Date = DateTime.Today,
                 ProjectId = 1,
                 UserId = 1,
@@ -91,7 +91,16 @@ namespace DataContracts
             },
             new TimeTrackEntry()
             {
-            Id = 2,
+                Id = 2,
+                Comment = "Успешно 3.2",
+                Date = DateTime.Today,
+                ProjectId = 1,
+                UserId = 3,
+                Value = 12
+            },
+            new TimeTrackEntry()
+            {
+            Id = 3,
             Comment = "Неудачно",
             Date = DateTime.Today,
             ProjectId = 2,
@@ -99,12 +108,5 @@ namespace DataContracts
             Value = 13
             }
         };
-        public TimeTrackEntry UpdateTimeTrackEntry(TimeTrackEntry timeTrackEntry)
-        {
-            if (timeTrackEntry != null)
-                return timeTrackEntry;
-            return timeTrackEntry;
-        }
-
     }
 }

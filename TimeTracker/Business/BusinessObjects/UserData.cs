@@ -14,26 +14,35 @@ namespace Business.BusinessObjects
         public UserData(User user)
         {
             User = user;
-            
+
         }
 
-        public User User { get; set ; }
+        public User User { get; set; }
 
         public List<TimeTrackEntry> SubmittedTime { get; set; }
 
-        public delegate void IsChanged(string msg);
-        public event IsChanged SubmittedTimeChanged;
+        public delegate void SubmittedTimeChangedEventHandler(int submittedTime);
+        public event SubmittedTimeChangedEventHandler SubmittedTimeChanged;
 
-        public void SubmitTimeTrack(List<TimeTrackEntry> list)
+        public void SubmitTime(int projectId, int hours, string comment)
         {
-            SubmittedTime = new List<TimeTrackEntry>(list);
-            foreach (var timeTrackEntry in SubmittedTime)
+
+            if (!User.IsActive)
+                throw new Exception("Пользователь не активен, обновление не требуется");
+
+            var time = new TimeTrackEntry
             {
-                _stubs.UpdateTimeTrackEntry(timeTrackEntry);
-            }
-            SubmittedTimeChanged.Invoke("TimeTrackEntry list update");
+                Comment = comment,
+                Date = DateTime.Now,
+                ProjectId = projectId,
+                UserId = User.Id,
+                Value = hours
+            };
+            SubmittedTime.Add(time);
+            SubmittedTimeChanged?.Invoke(hours);
+
         }
 
-        
+
     }
-}   
+}
