@@ -24,7 +24,7 @@ namespace Business.BusinessObjects
         public delegate void IsChanged(string msg);
         public event IsChanged SubmittedTimeChanged;
 
-        public void SubmitTime(int projectId, int hours, string comment)
+        public void SubmitTimeTrack(List<TimeTrackEntry> list)
         {
             SubmittedTime = new List<TimeTrackEntry>(list);
             foreach (var timeTrackEntry in SubmittedTime)
