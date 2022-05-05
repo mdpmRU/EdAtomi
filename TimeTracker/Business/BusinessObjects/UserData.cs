@@ -22,16 +22,16 @@ namespace Business.BusinessObjects
         public List<TimeTrackEntry> SubmittedTime { get; set; }
 
         public delegate void IsChanged(string msg);
-        public event IsChanged IsActiveChanged;
+        public event IsChanged SubmittedTimeChanged;
 
-        public void SubmitTimeTrack(List<TimeTrackEntry> list)
+        public void SubmitTime(int projectId, int hours, string comment)
         {
             SubmittedTime = new List<TimeTrackEntry>(list);
             foreach (var timeTrackEntry in SubmittedTime)
             {
                 _stubs.UpdateTimeTrackEntry(timeTrackEntry);
             }
-            IsActiveChanged.Invoke("TimeTrackEntry list update");
+            SubmittedTimeChanged.Invoke("TimeTrackEntry list update");
         }
 
         
