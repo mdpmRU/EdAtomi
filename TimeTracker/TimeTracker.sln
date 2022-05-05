@@ -6,13 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{DF5CABBE-42FD-4A0E-898D-68A9A79DE6C7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{30CE6746-DB4F-4AA5-B13C-D04CFB013F95} = {30CE6746-DB4F-4AA5-B13C-D04CFB013F95}
+		{2C4D8E6F-CAEA-4C2F-8C18-7022CA179F1E} = {2C4D8E6F-CAEA-4C2F-8C18-7022CA179F1E}
+		{E6F044BD-2327-4759-AC51-2C3B79ABBDAA} = {E6F044BD-2327-4759-AC51-2C3B79ABBDAA}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataContracts", "..\DataContracts\DataContracts.csproj", "{E6F044BD-2327-4759-AC51-2C3B79ABBDAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataContracts", "DataContracts\DataContracts.csproj", "{E6F044BD-2327-4759-AC51-2C3B79ABBDAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "..\Infrastructure\Infrastructure.csproj", "{30CE6746-DB4F-4AA5-B13C-D04CFB013F95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{30CE6746-DB4F-4AA5-B13C-D04CFB013F95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "..\Business\Business.csproj", "{2C4D8E6F-CAEA-4C2F-8C18-7022CA179F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{2C4D8E6F-CAEA-4C2F-8C18-7022CA179F1E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E6F044BD-2327-4759-AC51-2C3B79ABBDAA} = {E6F044BD-2327-4759-AC51-2C3B79ABBDAA}
 	EndProjectSection
