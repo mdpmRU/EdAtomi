@@ -6,12 +6,12 @@ using DataContracts.Entities.Enumerations;
 
 UserServices userServices = new UserServices();
 
-UserData usdata = userServices.GetUserData(2);
+UserData usdata = userServices.GetUserData(1);
 usdata.SubmittedTimeChanged += PrintValue;
 
 try
 {
-    usdata.SubmitTime(3, 4, "Proverka");
+    usdata.SubmitTime(3, 5, "Proverka");
 }
 catch (Exception ex)
 {
@@ -38,6 +38,6 @@ foreach (User users in a)
 
 void PrintValue(int hours)
 {
-    Console.WriteLine($"Добавлено: {hours}");
+    Console.WriteLine($"Общая сумма часов: {hours}");
 }
 
