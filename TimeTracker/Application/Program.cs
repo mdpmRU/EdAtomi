@@ -6,37 +6,25 @@ using DataContracts.Entities.Enumerations;
 
 UserServices userServices = new UserServices();
 
-UserData usdata = userServices.GetUserData(1);
-usdata.SubmittedTimeChanged += PrintValue;
+UserData user = userServices.GetUserData(1);
+user.SubmittedTimeChanged += OnSubmitteddTimeChanged;
 
 try
 {
-    usdata.SubmitTime(3, 5, "Proverka");
+    user.SubmitTime(3, 5, "Proverka");
 }
 catch (Exception ex)
 {
     Console.WriteLine(ex.Message);
 }
 
-var a = userServices.GetUsersForProject(1, 12);
+var users = userServices.GetUsersForProject(1, 12);
 
-foreach (User users in a)
-    Console.WriteLine($"{users.FullName}");
+foreach (User us in users)
+    Console.WriteLine($"{us.FullName}");
 
-//UpdateUserData(usdata, 3, 4, "Proverka");
-//void UpdateUserData(UserData userData, int projectId, int hours, string comment = "")
-//{
-//    try
-//    {
-//        userData.SubmitTime(projectId, hours, comment);
-//    }
-//    catch (Exception exception)
-//    {
-//        Console.WriteLine(exception.Message);
-//    }
-//}
 
-void PrintValue(int hours)
+void OnSubmitteddTimeChanged(int hours)
 {
     Console.WriteLine($"Общая сумма часов: {hours}");
 }
