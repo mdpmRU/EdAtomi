@@ -6,24 +6,25 @@ namespace Business.Services
 {
     public class UserServices
     {
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<UserData> GetAllUsers()
         {
-            return Stubs.Users;
+            var listUserData = new List<UserData>();
+            for (var i = 1; i < Stubs.Users.Count + 1; i++)
+                listUserData.Add(GetUserData(i));
+            return listUserData;
         }
 
-        public IEnumerable<User> GetAllActiveUsers()
+        public IEnumerable<UserData> GetAllActiveUsers()
         {
-            var user = Stubs.Users.Where(u => u.IsActive);
-            return user;
+            var listUserData = Stubs.Users.Where(u => u.IsActive);
+            return listUserData.Select(us => GetUserData(us.Id)).ToList();
         }
 
-        public IEnumerable<User> GetUsersForProject(int idProject, int time = 1)
+        public IEnumerable<UserData> GetUsersForProject(int idProject, int time = 1)
         {
-            var users = Stubs.TimeTrackEntries.Where(ent => ent.ProjectId == idProject && ent.Value >= time)
-                .SelectMany(ent => Stubs.Users, (ent, us) => new { ent, us })
-                .Where(@t => @t.us.Id == @t.ent.UserId)
-                .Select(@t => @t.us);
-            return users;
+            var listUserData = Stubs.TimeTrackEntries.Where(ent => ent.ProjectId == idProject && ent.Value >= time)
+                .Select(ent => ent.UserId);
+            return listUserData.Select(GetUserData).ToList();
         }
 
         public UserData GetUserData(int userID)
