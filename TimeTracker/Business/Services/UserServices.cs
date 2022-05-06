@@ -8,26 +8,27 @@ namespace Business.Services
     {
         public IEnumerable<UserData> GetAllUsers()
         {
-            var listUserData = Stubs.Users;
-            return listUserData.Select(us => GetUserData(us.Id)).ToList();
+            return Stubs.Users.Select(us => GetUserData(us.Id));
         }
 
         public IEnumerable<UserData> GetAllActiveUsers()
         {
-            var listUserData = Stubs.Users.Where(u => u.IsActive);
-            return listUserData.Select(us => GetUserData(us.Id)).ToList();
+            return Stubs.Users
+                .Where(u => u.IsActive)
+                .Select(us => GetUserData(us.Id));
         }
 
         public IEnumerable<UserData> GetUsersForProject(int idProject, int time = 1)
         {
-            var listUserData = Stubs.TimeTrackEntries.Where(ent => ent.ProjectId == idProject && ent.Value >= time)
-                .Select(ent => ent.UserId);
-            return listUserData.Select(GetUserData).ToList();
+            return Stubs.TimeTrackEntries
+                .Where(ent => ent.ProjectId == idProject && ent.Value >= time)
+                .Select(ent => ent.UserId)
+                .Select(GetUserData);
         }
 
         public UserData GetUserData(int userID)
         {
-            var user = (Stubs.Users.Where(us => us.Id == userID)).First();
+            var user = (Stubs.Users.Where(us => us.Id == userID)).Single();
             var timeTrackEntries = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
