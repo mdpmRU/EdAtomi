@@ -36,7 +36,7 @@ namespace Business.BusinessObjects
                 Value = hours
             };
             SubmittedTime.Add(timeTrackEntry);
-            int allHours = SubmittedTime.Select(h => h.Value).Sum();
+            var allHours = SubmittedTime.Select(h => h.Value).Sum();
             SubmittedTimeChanged?.Invoke(allHours);
         }   
     }
