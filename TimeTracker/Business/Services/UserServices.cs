@@ -15,7 +15,7 @@ namespace Business.Services
         {
             return Stubs.Users
                 .Where(u => u.IsActive)
-                .Select(us => GetUserData(us.Id));
+                .Select(u => GetUserData(u.Id));
         }
 
         public IEnumerable<UserData> GetUsersForProject(int idProject, int time = 1)
@@ -28,7 +28,7 @@ namespace Business.Services
 
         public UserData GetUserData(int userID)
         {
-            var user = (Stubs.Users.Where(us => us.Id == userID)).Single();
+            var user = Stubs.Users.Single(u => u.Id == userID);
             var timeTrackEntries = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
