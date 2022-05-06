@@ -8,10 +8,8 @@ namespace Business.Services
     {
         public IEnumerable<UserData> GetAllUsers()
         {
-            var listUserData = new List<UserData>();
-            for (var i = 1; i < Stubs.Users.Count + 1; i++)
-                listUserData.Add(GetUserData(i));
-            return listUserData;
+            var listUserData = Stubs.Users;
+            return listUserData.Select(us => GetUserData(us.Id)).ToList();
         }
 
         public IEnumerable<UserData> GetAllActiveUsers()
