@@ -9,7 +9,6 @@ namespace DataContracts.Entities
 {
     public class TimeTrackEntry : BaseEntity
     {
-
         public int UserId { get; set; }
 
         public int ProjectId { get; set; }

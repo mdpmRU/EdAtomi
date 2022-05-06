@@ -13,7 +13,6 @@ namespace Business.BusinessObjects
         public UserData(User user)
         {
             User = user;
-
         }
 
         public User User { get; set; }
@@ -25,7 +24,6 @@ namespace Business.BusinessObjects
 
         public void SubmitTime(int projectId, int hours, string comment)
         {
-
             if (!User.IsActive)
                 throw new Exception("Пользователь не активен, обновление не требуется");
 
@@ -39,9 +37,6 @@ namespace Business.BusinessObjects
             };
             SubmittedTime.Add(time);
             SubmittedTimeChanged?.Invoke(hours);
-
-        }
-
-
+        }   
     }
 }

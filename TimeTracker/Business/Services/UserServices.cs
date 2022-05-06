@@ -31,7 +31,6 @@ namespace Business.Services
 
         public UserData GetUserData(int userID)
         {
-
             var user = (Stubs.Users.Where(us => us.Id == userID)).First();
             var timeTrackEntries = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
