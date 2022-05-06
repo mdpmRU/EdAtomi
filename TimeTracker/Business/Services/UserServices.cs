@@ -6,9 +6,6 @@ namespace Business.Services
 {
     public class UserServices
     {
-        public delegate void ExceptionEventHandler(string msg);
-        public event ExceptionEventHandler? Exception;
-
         public IEnumerable<User> GetAllUsers()
         {
             return Stubs.Users;
@@ -38,18 +35,6 @@ namespace Business.Services
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
             };
             return userData;
-        }
-
-        public void UpdateUserData(UserData userData, int projectId, int hours, string comment = "")
-        {
-            try
-            {
-                userData.SubmitTime(projectId, hours, comment);
-            }
-            catch (Exception exception)
-            {
-                Exception.Invoke(exception.Message);
-            }
         }
     }
 }
