@@ -27,7 +27,7 @@ namespace Business.BusinessObjects
             if (!User.IsActive)
                 throw new Exception("Пользователь не активен, обновление не требуется");
 
-            var time = new TimeTrackEntry
+            var timeTrackEntry = new TimeTrackEntry
             {
                 Comment = comment,
                 Date = DateTime.Now,
@@ -35,7 +35,7 @@ namespace Business.BusinessObjects
                 UserId = User.Id,
                 Value = hours
             };
-            SubmittedTime.Add(time);
+            SubmittedTime.Add(timeTrackEntry);
             SubmittedTimeChanged?.Invoke(hours);
         }   
     }
