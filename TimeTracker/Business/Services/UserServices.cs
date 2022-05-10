@@ -8,7 +8,7 @@ namespace Business.Services
     {
         public IEnumerable<UserData> GetAllUsers()
         {
-            return Stubs.Users.Select(us => GetUserData(us.Id));
+            return Stubs.Users.Select(u => GetUserData(u.Id));
         }
 
         public IEnumerable<UserData> GetAllActiveUsers()

@@ -41,7 +41,6 @@ namespace DataContracts
                 IsActive = true,
                 Password = "123",
                 Username = "Man"
-
             },
             new User()
             {
@@ -94,12 +93,12 @@ namespace DataContracts
             },
             new TimeTrackEntry()
             {
-            Id = 3,
-            Comment = "Неудачно",
-            Date = DateTime.Today,
-            ProjectId = 2,
-            UserId = 2,
-            Value = 13
+                Id = 3,
+                Comment = "Неудачно",
+                Date = DateTime.Today,
+                ProjectId = 2,
+                UserId = 2,
+                Value = 13
             }
         };
     }
