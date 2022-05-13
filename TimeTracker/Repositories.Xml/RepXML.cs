@@ -22,10 +22,9 @@ namespace Repositories.Xml
 
         public void Insert(T obj)
         {
-            var ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
             var xmlSerializer = new XmlSerializer(typeof(T));
-            using var fs = new FileStream("Users2.xml", FileMode.OpenOrCreate);
-            xmlSerializer.Serialize(fs, obj, ns);
+            using var fs = new FileStream($"{(typeof(T).Name)}.xml", FileMode.OpenOrCreate);
+            xmlSerializer.Serialize(fs, obj);
         }
     }
 }

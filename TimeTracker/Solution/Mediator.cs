@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.BusinessObjects;
+using Business.Services;
 using Contracts;
 using DataContracts;
 using DataContracts.Entities;
@@ -13,46 +15,69 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
-        public Stubs stubs = new Stubs();
-        public delegate void MediatorDelegateEventHandler();
-        public event MediatorDelegateEventHandler mediator;//Добавить уведомление об успешной загрузки
-        //private Queue<MediatorDelegateEventHandler> queue = new Queue<MediatorDelegateEventHandler>();
+        private readonly Queue<Action> _queueActionsData = new();
 
-        public Queue<Action> QueueActionsData = new Queue<Action>();
+        public static UserServices userServices = new UserServices();
+        public Stubs Stub = userServices.Stubs;
+
+
+        public delegate void MediatorDelegateEventHandler(string notification);
+        public event MediatorDelegateEventHandler NotifyMediator;
 
         public void SubscribeToSomething(Action action) => action();
 
         public void GetUser()
         {
-            RepXML<User> ur = new RepXML<User>();
-            QueueActionsData.Enqueue(()=>stubs.Users = ur.GetAll().ToList());
-            mediator?.Invoke();
+            var ur = new RepXML<User>();
+            _queueActionsData.Enqueue(() => Stub.Users = ur.GetAll().ToList());
+            NotifyMediator?.Invoke("Данные по Users успешно загружены");
         }
         public void GetProject()
         {
-            RepXML<Project> pr = new RepXML<Project>();
-            QueueActionsData.Enqueue(() => stubs.Projects = pr.GetAll().ToList());
-            mediator?.Invoke();
+            var pr = new RepXML<Project>();
+            _queueActionsData.Enqueue(() => Stub.Projects = pr.GetAll().ToList());
+            NotifyMediator?.Invoke("Данные по Projects успешно загружены");
         }
         public void GetTimeTrackEntry()
         {
-            RepXML<TimeTrackEntry> tr = new RepXML<TimeTrackEntry>();
-            QueueActionsData.Enqueue(() => stubs.TimeTrackEntries = tr.GetAll().ToList());
-            mediator?.Invoke();
+            var tr = new RepXML<TimeTrackEntry>();
+            _queueActionsData.Enqueue(() => Stub.TimeTrackEntries = tr.GetAll().ToList());
+            NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
 
-        public void Dispose()//разобраться
+        public IEnumerable<UserData> GetUserData(bool active)
+        {
+            
+            if (active)
+            {
+                return Pointer(userServices.GetAllUsers);
+            }
+            else
+            {
+                return Pointer(userServices.GetAllActiveUsers);
+            }
+        }
+
+        public void InsertProject(Project obj)
+        {
+            RepXML<Project> pr = new RepXML<Project>();
+            pr.Insert(obj);
+            NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
+        }
+        public void Dispose()
         {
             ClearQueueActionsData();
+            GC.Collect();
             GC.SuppressFinalize(this);
         }
 
+        private IEnumerable<UserData> Pointer(Func<IEnumerable<UserData>> func) => func();
+
         private void ClearQueueActionsData()
         {
-            Action action;
-            while(QueueActionsData.Count != 0)
+            while (_queueActionsData.Count != 0)
             {
-                action = QueueActionsData.Dequeue();
+                var action = _queueActionsData.Dequeue();
                 action.Invoke();
             }
         }
