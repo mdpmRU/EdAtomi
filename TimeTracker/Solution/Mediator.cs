@@ -17,13 +17,12 @@ namespace Solution
     {
         private readonly Queue<Action> _queueActionsData = new();
 
-        public static UserServices userServices = new UserServices();
+        public static UserServices userServices = new();
         public Stubs Stub = userServices.Stubs;
 
-        public delegate void MediatorDelegateEventHandler(string notification);
-        public event MediatorDelegateEventHandler NotifyMediator;
+        public event Action<string> NotifyMediator;
 
-        public void SubscribeToSomething(Action action) => action();
+        public void SubscribeToNotify(Action<string> action) => NotifyMediator += action;
 
         public void GetUser()
         {
@@ -31,12 +30,14 @@ namespace Solution
             _queueActionsData.Enqueue(() => Stub.Users = ur.GetAll().ToList());
             NotifyMediator?.Invoke("Данные по Users успешно загружены");
         }
+
         public void GetProject()
         {
             var pr = new RepXML<Project>();
             _queueActionsData.Enqueue(() => Stub.Projects = pr.GetAll().ToList());
             NotifyMediator?.Invoke("Данные по Projects успешно загружены");
         }
+
         public void GetTimeTrackEntry()
         {
             var tr = new RepXML<TimeTrackEntry>();
@@ -44,25 +45,24 @@ namespace Solution
             NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
 
-        public IEnumerable<UserData> GetUserData(bool active)
+        public UserData GetInUserData(int userId)
         {
-            
-            if (active)
-            {
-                return Pointer(userServices.GetAllUsers);
-            }
-            else
-            {
-                return Pointer(userServices.GetAllActiveUsers);
-            }
+            var userData = userServices.GetUserData(userId);
+            return userData;
+        }
+
+        public IEnumerable<UserData> GetUsersData(bool active)
+        {
+            return active ? Pointer(userServices.GetAllUsers) : Pointer(userServices.GetAllActiveUsers);
         }
 
         public void InsertProject(Project obj)
         {
-            RepXML<Project> pr = new RepXML<Project>();
+            var pr = new RepXML<Project>();
             pr.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
+
         public void Dispose()
         {
             ClearQueueActionsData();

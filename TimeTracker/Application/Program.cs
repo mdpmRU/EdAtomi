@@ -11,18 +11,20 @@ var stub = new Stubs();
 //user.SubmittedTimeChanged += OnSubmitteddTimeChanged;
 
 var med = new Mediator();
-med.NotifyMediator += Notification;
+//med.NotifyMediator += Notification;
+med.SubscribeToNotify(Notification);
 med.GetUser();
 med.GetProject();
 med.GetTimeTrackEntry();
-med.Dispose();
+//med.Dispose();
 
-foreach (var user1 in med.Stub.Users)
-{
-    Console.WriteLine($"{user1.FullName}");
-}
 
-var activeUsers = med.GetUserData(true);
+//foreach (var user1 in med.Stub.Users)
+//{
+//    Console.WriteLine($"{user1.FullName}");
+//}
+
+var activeUsers = med.GetUsersData(true);
 foreach (var activeUser in activeUsers)
 {
     Console.WriteLine(activeUser.User.FullName);
@@ -36,6 +38,7 @@ void Notification(string msg)
 {
     Console.WriteLine(msg);
 }
+
 
 
 
