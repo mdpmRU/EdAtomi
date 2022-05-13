@@ -20,7 +20,6 @@ namespace Solution
         public static UserServices userServices = new UserServices();
         public Stubs Stub = userServices.Stubs;
 
-
         public delegate void MediatorDelegateEventHandler(string notification);
         public event MediatorDelegateEventHandler NotifyMediator;
 
