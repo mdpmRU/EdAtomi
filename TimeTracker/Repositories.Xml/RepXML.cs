@@ -20,11 +20,11 @@ namespace Repositories.Xml
             return list;
         }
 
-        public void Insert(T obj)
+        public void Insert(T entity)
         {
             var xmlSerializer = new XmlSerializer(typeof(T));
             using var fs = new FileStream($"{(typeof(T).Name)}.xml", FileMode.OpenOrCreate);
-            xmlSerializer.Serialize(fs, obj);
+            xmlSerializer.Serialize(fs, entity);
         }
     }
 }

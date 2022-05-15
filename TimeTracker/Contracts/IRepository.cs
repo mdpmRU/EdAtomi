@@ -4,8 +4,8 @@ namespace Contracts
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        public IEnumerable<T>? GetAll();
+        public IEnumerable<T> GetAll();
 
-        public void Insert(T obj);
+        public void Insert(T entity);
     }
 }
