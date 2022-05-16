@@ -10,10 +10,9 @@ namespace Business.Services
 {
     public class TimeTrackEntryServices
     {
-        private readonly Stubs _stubs = new();
-        public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry()
+        public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry(DataRepository rep)
         {
-            return _stubs.TimeTrackEntries;
+            return rep.TimeTrackEntries;
         }
     }
 }

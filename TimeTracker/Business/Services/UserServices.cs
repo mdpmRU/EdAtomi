@@ -6,31 +6,30 @@ namespace Business.Services
 {
     public class UserServices
     {
-        public Stubs Stubs = new Stubs();
-        public IEnumerable<UserData> GetAllUsers()
+        public IEnumerable<UserData> GetAllUsers(DataRepository rep)
         {
-            return Stubs.Users.Select(u => GetUserData(u.Id));
+            return rep.Users.Select(u => GetUserData(rep,u.Id));
         }
 
-        public IEnumerable<UserData> GetAllActiveUsers()
+        public IEnumerable<UserData> GetAllActiveUsers(DataRepository rep)
         {
-            return Stubs.Users
+            return rep.Users
                 .Where(u => u.IsActive)
-                .Select(u => GetUserData(u.Id));
+                .Select(u => GetUserData(rep,u.Id));
         }
 
-        public IEnumerable<UserData> GetUsersForProject(int idProject, int time = 1)
+        public IEnumerable<UserData> GetUsersForProject(DataRepository rep, int idProject, int time = 1)
         {
             return Stubs.TimeTrackEntries
                 .Where(ent => ent.ProjectId == idProject && ent.Value >= time)
                 .Select(ent => ent.UserId)
-                .Select(GetUserData);
+                .Select(i => GetUserData(rep,i));
         }
 
-        public UserData GetUserData(int userID)
+        public UserData GetUserData(DataRepository rep, int userID)
         {
-            var user = Stubs.Users.Single(u => u.Id == userID);
-            var timeTrackEntries = Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
+            var user = rep.Users.Single(u => u.Id == userID);
+            var timeTrackEntries = rep.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)

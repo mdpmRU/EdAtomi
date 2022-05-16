@@ -9,9 +9,9 @@ using DataContracts.Entities.Enumerations;
 
 namespace DataContracts
 {
-    public class Stubs
+    public static class Stubs
     {
-        public List<Project> Projects = new List<Project>()
+        public static List<Project> Projects = new List<Project>()
         {
             new()
             {
@@ -31,7 +31,7 @@ namespace DataContracts
             },
         };
 
-        public List<User> Users = new List<User>()
+        public static List<User> Users = new List<User>()
         {
             new User()
             {
@@ -62,7 +62,7 @@ namespace DataContracts
             }
         };
 
-        public List<TimeTrackEntry> TimeTrackEntries = new List<TimeTrackEntry>()
+        public static List<TimeTrackEntry> TimeTrackEntries = new List<TimeTrackEntry>()
         {
             new TimeTrackEntry()
             {

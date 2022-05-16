@@ -10,10 +10,9 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        private readonly Stubs _stubs = new();
-        public IEnumerable<Project> GetAllProjects()
+        public IEnumerable<Project> GetAllProjects(DataRepository rep)
         {
-            return _stubs.Projects;
+            return rep.Projects;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business;
 using Business.BusinessObjects;
 using Business.Services;
 using Contracts;
@@ -17,43 +18,56 @@ namespace Solution
     {
         private readonly Queue<Action> _queueActionsData = new();
 
+        private DataRepository _dataRepository = new();
+
         public static UserServices userServices = new();
-        public Stubs Stub = userServices.Stubs;
 
         public event Action<string> NotifyMediator;
 
         public void SubscribeToNotify(Action<string> action) => NotifyMediator += action;
 
+        public void GetData()
+        {
+            _queueActionsData.Enqueue(GetUser);
+            _queueActionsData.Enqueue(GetProject);
+            _queueActionsData.Enqueue(GetTimeTrackEntry);
+            if (_queueActionsData.Count == 3)
+                Dispose();
+
+        }
         public void GetUser()
         {
             var ur = new RepXML<User>();
-            _queueActionsData.Enqueue(() => Stub.Users = ur.GetAll().ToList());
+            //_queueActionsData.Enqueue(() => _dataRepository.Users = ur.GetAll().ToList());
+            _dataRepository.Users = ur.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по Users успешно загружены");
         }
 
         public void GetProject()
         {
             var pr = new RepXML<Project>();
-            _queueActionsData.Enqueue(() => Stub.Projects = pr.GetAll().ToList());
+            //_queueActionsData.Enqueue(() => _dataRepository.Projects = pr.GetAll().ToList());
+            _dataRepository.Projects = pr.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по Projects успешно загружены");
         }
 
         public void GetTimeTrackEntry()
         {
             var tr = new RepXML<TimeTrackEntry>();
-            _queueActionsData.Enqueue(() => Stub.TimeTrackEntries = tr.GetAll().ToList());
+            //_queueActionsData.Enqueue(() => _dataRepository.TimeTrackEntries = tr.GetAll().ToList());
+            _dataRepository.TimeTrackEntries = tr.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
 
-        public UserData GetInUserData(int userId)
+        public UserData GetInUserData(DataRepository rep, int userId)
         {
-            var userData = userServices.GetUserData(userId);
+            var userData = userServices.GetUserData(rep, userId);
             return userData;
         }
 
         public IEnumerable<UserData> GetUsersData(bool active)
         {
-            return active ? Pointer(userServices.GetAllUsers) : Pointer(userServices.GetAllActiveUsers);
+            return active ? Pointer(_dataRepository, userServices.GetAllUsers) : Pointer(_dataRepository, userServices.GetAllActiveUsers);
         }
 
         public void InsertProject(Project obj)
@@ -70,7 +84,7 @@ namespace Solution
             GC.SuppressFinalize(this);
         }
 
-        private IEnumerable<UserData> Pointer(Func<IEnumerable<UserData>> func) => func();
+        private static IEnumerable<UserData> Pointer(DataRepository str, Func<DataRepository, IEnumerable<UserData>> func) => func(str);
 
         private void ClearQueueActionsData()
         {
