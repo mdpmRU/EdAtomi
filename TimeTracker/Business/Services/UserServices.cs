@@ -1,4 +1,5 @@
 ﻿using Business.BusinessObjects;
+using Contracts;
 using DataContracts;
 using DataContracts.Entities;
 
@@ -6,30 +7,42 @@ namespace Business.Services
 {
     public class UserServices
     {
-        public IEnumerable<UserData> GetAllUsers(DataRepository rep)
+        private IRepository<User> _userRepository;
+        private IRepository<Project> _projectRepository;
+        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
+
+        public UserServices(IRepository<User> u, IRepository<Project> p, IRepository<TimeTrackEntry> tte)
         {
-            return rep.Users.Select(u => GetUserData(rep,u.Id));
+            this._userRepository = u;
+            this._projectRepository = p;
+            this._timeTrackEntryRepository = tte;
+
         }
 
-        public IEnumerable<UserData> GetAllActiveUsers(DataRepository rep)
+        public IEnumerable<UserData> GetAllUsers()
         {
-            return rep.Users
+            return _userRepository.GetAll().Select(u => GetUserData(u.Id));
+        }
+
+        public IEnumerable<UserData> GetAllActiveUsers()
+        {
+            return _userRepository.GetAll()
                 .Where(u => u.IsActive)
-                .Select(u => GetUserData(rep,u.Id));
+                .Select(u => GetUserData(u.Id));
         }
 
-        public IEnumerable<UserData> GetUsersForProject(DataRepository rep, int idProject, int time = 1)
+        public IEnumerable<UserData> GetUsersForProject(int idProject, int time = 1)
         {
             return Stubs.TimeTrackEntries
                 .Where(ent => ent.ProjectId == idProject && ent.Value >= time)
                 .Select(ent => ent.UserId)
-                .Select(i => GetUserData(rep,i));
+                .Select(i => GetUserData(i));
         }
 
-        public UserData GetUserData(DataRepository rep, int userID)
+        public UserData GetUserData(int userID)
         {
-            var user = rep.Users.Single(u => u.Id == userID);
-            var timeTrackEntries = rep.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
+            var user = _userRepository.GetAll().Single(u => u.Id == userID);
+            var timeTrackEntries = _timeTrackEntryRepository.GetAll().Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)

@@ -6,18 +6,16 @@ using DataContracts.Entities;
 using Repositories.Xml;
 using Solution;
 
-var med = new Mediator();
+using var mediator = new Mediator();
+mediator.SubscribeToNotify(Notification);
+    
+var activeUsers = mediator.GetUsersData(true);
 
-med.SubscribeToNotify(Notification);
-
-med.GetData();
-
-
-var activeUsers = med.GetUsersData(true);
 foreach (var activeUser in activeUsers)
 {
     Console.WriteLine(activeUser.User.FullName);
 }
+
 
 void OnSubmitteddTimeChanged(int hours)
 {

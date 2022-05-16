@@ -16,12 +16,13 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
+        private static readonly UserRepositoriesXml _userRepositoriesXml = new();
+        private static readonly ProjectRepositoriesXml _projectRepositoriesXml = new();
+        private static readonly TimeTrackEntryRepositoriesXml _timeTrackEntryRepositoriesXml = new();
 
         private readonly Queue<Action> _queueActionsData = new();
 
-        private DataRepository _dataRepository = new();
-
-        public UserServices userServices = new();
+        public UserServices UserServices = new(_userRepositoriesXml, _projectRepositoriesXml, _timeTrackEntryRepositoriesXml);
 
         private bool _disposed = false;
 
@@ -29,32 +30,20 @@ namespace Solution
 
         public void SubscribeToNotify(Action<string> action) => NotifyMediator += action;
 
-        public void GetData()
+        public UserData GetInUserData(int userId)
         {
-            _queueActionsData.Enqueue(GetUser);
-            _queueActionsData.Enqueue(GetProject);
-            _queueActionsData.Enqueue(GetTimeTrackEntry);
-            if (_queueActionsData.Count == 3)
-                ClearQueueActionsData();
-            NotifyMediator?.Invoke("Все данные были успешно загружены");
-            Dispose();
-
-        }
-
-        public UserData GetInUserData(DataRepository rep, int userId)
-        {
-            var userData = userServices.GetUserData(rep, userId);
+            var userData = UserServices.GetUserData(userId);
             return userData;
         }
 
         public IEnumerable<UserData> GetUsersData(bool active)
         {
-            return active ? Pointer(_dataRepository, userServices.GetAllUsers) : Pointer(_dataRepository, userServices.GetAllActiveUsers);
+            return active ? Pointer(UserServices.GetAllUsers) : Pointer(UserServices.GetAllActiveUsers);
         }
 
         public void InsertProject(Project obj)
         {
-            var pr = new RepositoriesXml<Project>();
+            var pr = new ProjectRepositoriesXml();
             pr.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
@@ -65,7 +54,7 @@ namespace Solution
             GC.SuppressFinalize(this);
         }
 
-        private static IEnumerable<UserData> Pointer(DataRepository str, Func<DataRepository, IEnumerable<UserData>> func) => func(str);
+        private static IEnumerable<UserData> Pointer(Func<IEnumerable<UserData>> func) => func();
 
         private void ClearQueueActionsData()
         {
@@ -82,31 +71,11 @@ namespace Solution
             {
                 if (clean)
                 {
-                    Console.WriteLine("Осовобожен");
+                    NotifyMediator?.Invoke($"Очищено");
                     GC.Collect();
                 }
             }
             _disposed = true;
-        }
-        private void GetUser()
-        {
-            var ur = new RepositoriesXml<User>();
-            _dataRepository.Users = ur.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по Users успешно загружены");
-        }
-
-        private void GetProject()
-        {
-            var pr = new RepositoriesXml<Project>();
-            _dataRepository.Projects = pr.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по Projects успешно загружены");
-        }
-
-        private void GetTimeTrackEntry()
-        {
-            var tr = new RepositoriesXml<TimeTrackEntry>();
-            _dataRepository.TimeTrackEntries = tr.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
     }
 }
