@@ -16,11 +16,14 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
+
         private readonly Queue<Action> _queueActionsData = new();
 
         private DataRepository _dataRepository = new();
 
-        public static UserServices userServices = new();
+        public UserServices userServices = new();
+
+        private bool _disposed = false;
 
         public event Action<string> NotifyMediator;
 
@@ -32,28 +35,10 @@ namespace Solution
             _queueActionsData.Enqueue(GetProject);
             _queueActionsData.Enqueue(GetTimeTrackEntry);
             if (_queueActionsData.Count == 3)
-                Dispose();
+                ClearQueueActionsData();
+            NotifyMediator?.Invoke("Все данные были успешно загружены");
+            Dispose();
 
-        }
-        public void GetUser()
-        {
-            var ur = new RepositoriesXml<User>();
-            _dataRepository.Users = ur.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по Users успешно загружены");
-        }
-
-        public void GetProject()
-        {
-            var pr = new RepositoriesXml<Project>();
-            _dataRepository.Projects = pr.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по Projects успешно загружены");
-        }
-
-        public void GetTimeTrackEntry()
-        {
-            var tr = new RepositoriesXml<TimeTrackEntry>();
-            _dataRepository.TimeTrackEntries = tr.GetAll().ToList();
-            NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
 
         public UserData GetInUserData(DataRepository rep, int userId)
@@ -76,8 +61,7 @@ namespace Solution
 
         public void Dispose()
         {
-            ClearQueueActionsData();
-            GC.Collect();
+            CleanUp(true);
             GC.SuppressFinalize(this);
         }
 
@@ -90,6 +74,39 @@ namespace Solution
                 var action = _queueActionsData.Dequeue();
                 action.Invoke();
             }
+        }
+
+        private void CleanUp(bool clean)
+        {
+            if (_disposed)
+            {
+                if (clean)
+                {
+                    Console.WriteLine("Осовобожен");
+                    GC.Collect();
+                }
+            }
+            _disposed = true;
+        }
+        private void GetUser()
+        {
+            var ur = new RepositoriesXml<User>();
+            _dataRepository.Users = ur.GetAll().ToList();
+            NotifyMediator?.Invoke("Данные по Users успешно загружены");
+        }
+
+        private void GetProject()
+        {
+            var pr = new RepositoriesXml<Project>();
+            _dataRepository.Projects = pr.GetAll().ToList();
+            NotifyMediator?.Invoke("Данные по Projects успешно загружены");
+        }
+
+        private void GetTimeTrackEntry()
+        {
+            var tr = new RepositoriesXml<TimeTrackEntry>();
+            _dataRepository.TimeTrackEntries = tr.GetAll().ToList();
+            NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
     }
 }
