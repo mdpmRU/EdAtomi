@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Business;
@@ -20,7 +21,7 @@ namespace Solution
         private static readonly ProjectRepositoriesXml _projectRepositoriesXml = new();
         private static readonly TimeTrackEntryRepositoriesXml _timeTrackEntryRepositoriesXml = new();
 
-        private readonly Queue<Action> _queueActionsData = new();
+        private readonly Queue<Action> _queueActionsTimeTrack = new();
 
         public UserServices UserServices = new(_userRepositoriesXml, _projectRepositoriesXml, _timeTrackEntryRepositoriesXml);
 
@@ -43,11 +44,35 @@ namespace Solution
 
         public void InsertProject(Project obj)
         {
-            var pr = new ProjectRepositoriesXml();
-            pr.Insert(obj);
+            _projectRepositoriesXml.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
 
+        public void InsertUser(User obj)
+        {
+            _userRepositoriesXml.Insert(obj);
+            NotifyMediator?.Invoke($"Пользователь {obj.FullName} успешно добавлен");
+        }
+
+        public void InsertTimeTrack(TimeTrackEntry obj)
+        {
+            _queueActionsTimeTrack.Enqueue(() => _timeTrackEntryRepositoriesXml.Insert(obj));
+        }
+
+        public void ApproveTimeTrack(bool claim)
+        {
+            if (claim)
+            {
+                ClearQueueTimeTrack();
+                NotifyMediator.Invoke($"Отправка одобрена");
+            }
+            else
+            {
+                _queueActionsTimeTrack.Clear();
+                NotifyMediator.Invoke($"Отправка запросов отклонена");
+            }
+
+        }
         public void Dispose()
         {
             CleanUp(true);
@@ -56,11 +81,11 @@ namespace Solution
 
         private static IEnumerable<UserData> Pointer(Func<IEnumerable<UserData>> func) => func();
 
-        private void ClearQueueActionsData()
+        private void ClearQueueTimeTrack()
         {
-            while (_queueActionsData.Count != 0)
+            while (_queueActionsTimeTrack.Count != 0)
             {
-                var action = _queueActionsData.Dequeue();
+                var action = _queueActionsTimeTrack.Dequeue();
                 action.Invoke();
             }
         }
