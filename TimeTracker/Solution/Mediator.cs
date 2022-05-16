@@ -37,24 +37,21 @@ namespace Solution
         }
         public void GetUser()
         {
-            var ur = new RepXML<User>();
-            //_queueActionsData.Enqueue(() => _dataRepository.Users = ur.GetAll().ToList());
+            var ur = new RepositoriesXml<User>();
             _dataRepository.Users = ur.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по Users успешно загружены");
         }
 
         public void GetProject()
         {
-            var pr = new RepXML<Project>();
-            //_queueActionsData.Enqueue(() => _dataRepository.Projects = pr.GetAll().ToList());
+            var pr = new RepositoriesXml<Project>();
             _dataRepository.Projects = pr.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по Projects успешно загружены");
         }
 
         public void GetTimeTrackEntry()
         {
-            var tr = new RepXML<TimeTrackEntry>();
-            //_queueActionsData.Enqueue(() => _dataRepository.TimeTrackEntries = tr.GetAll().ToList());
+            var tr = new RepositoriesXml<TimeTrackEntry>();
             _dataRepository.TimeTrackEntries = tr.GetAll().ToList();
             NotifyMediator?.Invoke("Данные по TimeTrackEntries успешно загружены");
         }
@@ -72,7 +69,7 @@ namespace Solution
 
         public void InsertProject(Project obj)
         {
-            var pr = new RepXML<Project>();
+            var pr = new RepositoriesXml<Project>();
             pr.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }

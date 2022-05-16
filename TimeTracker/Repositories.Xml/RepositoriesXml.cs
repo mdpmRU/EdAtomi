@@ -11,7 +11,7 @@ using Business;
 
 namespace Repositories.Xml
 {
-    public class RepXML<T> : IRepository<T> where T : BaseEntity
+    public class RepositoriesXml<T> : IRepository<T> where T : BaseEntity
     { 
         public IEnumerable<T> GetAll()
         {
