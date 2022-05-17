@@ -13,7 +13,7 @@ namespace Repositories.Xml
     {
         public IEnumerable<TimeTrackEntry> GetAll()
         {
-            return Stubs.TimeTrackEntries.ToList();
+            return Stubs.TimeTrackEntries.ToList().AsReadOnly();
         }
 
         public void Insert(TimeTrackEntry entity)

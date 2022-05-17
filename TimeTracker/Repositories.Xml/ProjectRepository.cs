@@ -8,7 +8,7 @@ namespace Repositories.Xml
     {
         public IEnumerable<Project> GetAll()
         {
-            return Stubs.Projects.ToList();
+            return Stubs.Projects.ToList().AsReadOnly();
         }
 
         public void Insert(Project entity)

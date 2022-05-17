@@ -6,7 +6,11 @@ using DataContracts.Entities;
 using Repositories.Xml;
 using Solution;
 
-using var mediator = new Mediator();
+UserRepository userRepositoriesXml = new();
+ProjectRepository projectRepository = new();
+TimeTrackEntryRepository timeTrackEntryRepository = new();
+
+using var mediator = new Mediator(userRepositoriesXml, projectRepository, timeTrackEntryRepository);
 mediator.SubscribeToNotify(Notification);
     
 var activeUsers = mediator.GetUsersData(true);

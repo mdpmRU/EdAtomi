@@ -17,15 +17,23 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
-        private static readonly UserRepository UserRepository = new();
-        private static readonly ProjectRepository ProjectRepository = new();
-        private static readonly TimeTrackEntryRepository TimeTrackEntryRepository = new();
+        private static IRepository<User> _userRepository;
+        private static IRepository<Project> _projectRepository;
+        private static IRepository<TimeTrackEntry> _timeTrackEntryRepository;
+
+        private bool _disposed = false;
 
         private readonly Queue<Action> _queueActionsTimeTrack = new();
 
-        public UserServices UserServices = new(UserRepository, ProjectRepository, TimeTrackEntryRepository);
+        public Mediator(IRepository<User> userRepository, IRepository<Project> projectRepositoryRepository, IRepository<TimeTrackEntry> timeTrackEntryRepository)
+        {
+            _userRepository = userRepository;
+            _projectRepository = projectRepositoryRepository;
+            _timeTrackEntryRepository = timeTrackEntryRepository;
+            UserServices = new UserServices(_userRepository, _projectRepository, _timeTrackEntryRepository);
+        }
 
-        private bool _disposed = false;
+        public UserServices UserServices;
 
         public event Action<string> NotifyMediator;
 
@@ -44,19 +52,19 @@ namespace Solution
 
         public void InsertProject(Project obj)
         {
-            ProjectRepository.Insert(obj);
+            _projectRepository.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
 
         public void InsertUser(User obj)
         {
-            UserRepository.Insert(obj);
+            _userRepository.Insert(obj);
             NotifyMediator?.Invoke($"Пользователь {obj.FullName} успешно добавлен");
         }
 
         public void InsertTimeTrack(TimeTrackEntry obj)
         {
-            _queueActionsTimeTrack.Enqueue(() => TimeTrackEntryRepository.Insert(obj));
+            _queueActionsTimeTrack.Enqueue(() => _timeTrackEntryRepository.Insert(obj));
         }
 
         public void ApproveTimeTrack(bool claim)

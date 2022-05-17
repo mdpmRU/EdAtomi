@@ -11,17 +11,11 @@ namespace Business.Services
 {
     public class TimeTrackEntryServices
     {
+        private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
 
-        private IRepository<User> _userRepository;
-        private IRepository<Project> _projectRepository;
-        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
-
-        public TimeTrackEntryServices(IRepository<User> u, IRepository<Project> p, IRepository<TimeTrackEntry> tte)
+        public TimeTrackEntryServices(IRepository<TimeTrackEntry> tte)
         {
-            this._userRepository = u;
-            this._projectRepository = p;
-            this._timeTrackEntryRepository = tte;
-
+            _timeTrackEntryRepository = tte;
         }
 
         public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry()

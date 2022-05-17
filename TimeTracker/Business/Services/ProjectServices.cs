@@ -11,15 +11,11 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        private IRepository<User> _userRepository;
-        private IRepository<Project> _projectRepository;
-        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
+        private static IRepository<Project> _projectRepository { get; set; }
 
-        public ProjectServices(IRepository<User> u, IRepository<Project> p, IRepository<TimeTrackEntry> tte)
+        public ProjectServices(IRepository<Project> p)
         {
-            this._userRepository = u;
-            this._projectRepository = p;
-            this._timeTrackEntryRepository = tte;
+            _projectRepository = p;
 
         }
         public IEnumerable<Project> GetAllProjects()

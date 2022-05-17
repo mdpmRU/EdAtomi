@@ -7,16 +7,13 @@ namespace Business.Services
 {
     public class UserServices
     {
-        private IRepository<User> _userRepository;
-        private IRepository<Project> _projectRepository;
-        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
+        private static IRepository<User> _userRepository { get; set; }
+        private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
 
         public UserServices(IRepository<User> u, IRepository<Project> p, IRepository<TimeTrackEntry> tte)
         {
-            this._userRepository = u;
-            this._projectRepository = p;
-            this._timeTrackEntryRepository = tte;
-
+            _userRepository = u;
+            _timeTrackEntryRepository = tte;
         }
 
         public IEnumerable<UserData> GetAllUsers()
