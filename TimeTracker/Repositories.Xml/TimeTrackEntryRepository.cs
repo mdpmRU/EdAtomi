@@ -9,7 +9,7 @@ using DataContracts.Entities;
 
 namespace Repositories.Xml
 {
-    public class TimeTrackEntryRepositoriesXml: IRepository<TimeTrackEntry>
+    public class TimeTrackEntryRepository: IRepository<TimeTrackEntry>
     {
         public IEnumerable<TimeTrackEntry> GetAll()
         {

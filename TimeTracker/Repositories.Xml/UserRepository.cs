@@ -11,7 +11,7 @@ using Business;
 
 namespace Repositories.Xml
 {
-    public class UserRepositoriesXml : IRepository<User>
+    public class UserRepository : IRepository<User>
     {
         public IEnumerable<User> GetAll()
         {

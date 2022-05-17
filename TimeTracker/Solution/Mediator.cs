@@ -17,13 +17,13 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
-        private static readonly UserRepositoriesXml _userRepositoriesXml = new();
-        private static readonly ProjectRepositoriesXml _projectRepositoriesXml = new();
-        private static readonly TimeTrackEntryRepositoriesXml _timeTrackEntryRepositoriesXml = new();
+        private static readonly UserRepository UserRepository = new();
+        private static readonly ProjectRepository ProjectRepository = new();
+        private static readonly TimeTrackEntryRepository TimeTrackEntryRepository = new();
 
         private readonly Queue<Action> _queueActionsTimeTrack = new();
 
-        public UserServices UserServices = new(_userRepositoriesXml, _projectRepositoriesXml, _timeTrackEntryRepositoriesXml);
+        public UserServices UserServices = new(UserRepository, ProjectRepository, TimeTrackEntryRepository);
 
         private bool _disposed = false;
 
@@ -44,19 +44,19 @@ namespace Solution
 
         public void InsertProject(Project obj)
         {
-            _projectRepositoriesXml.Insert(obj);
+            ProjectRepository.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
 
         public void InsertUser(User obj)
         {
-            _userRepositoriesXml.Insert(obj);
+            UserRepository.Insert(obj);
             NotifyMediator?.Invoke($"Пользователь {obj.FullName} успешно добавлен");
         }
 
         public void InsertTimeTrack(TimeTrackEntry obj)
         {
-            _queueActionsTimeTrack.Enqueue(() => _timeTrackEntryRepositoriesXml.Insert(obj));
+            _queueActionsTimeTrack.Enqueue(() => TimeTrackEntryRepository.Insert(obj));
         }
 
         public void ApproveTimeTrack(bool claim)

@@ -4,7 +4,7 @@ using DataContracts.Entities;
 
 namespace Repositories.Xml
 {
-    public class ProjectRepositoriesXml : IRepository<Project>
+    public class ProjectRepository : IRepository<Project>
     {
         public IEnumerable<Project> GetAll()
         {
