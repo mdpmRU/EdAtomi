@@ -15,9 +15,7 @@ namespace Repositories.Xml
     {
         public IEnumerable<User> GetAll()
         {
-            var list = Stubs.Users;
-            return list as IEnumerable<User>;
-
+            return Stubs.Users.ToList();
         }
 
         public void Insert(User entity)

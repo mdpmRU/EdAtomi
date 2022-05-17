@@ -8,8 +8,7 @@ namespace Repositories.Xml
     {
         public IEnumerable<Project> GetAll()
         {
-            var list = Stubs.Projects;
-            return list as IEnumerable<Project>;
+            return Stubs.Projects.ToList();
         }
 
         public void Insert(Project entity)

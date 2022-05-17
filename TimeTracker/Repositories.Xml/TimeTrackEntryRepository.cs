@@ -13,13 +13,12 @@ namespace Repositories.Xml
     {
         public IEnumerable<TimeTrackEntry> GetAll()
         {
-            var list = Stubs.TimeTrackEntries;
-            return list as IEnumerable<TimeTrackEntry>;
+            return Stubs.TimeTrackEntries.ToList();
         }
+
         public void Insert(TimeTrackEntry entity)
         {
             Stubs.TimeTrackEntries.Add(entity);
         }
-
     }
 }
