@@ -7,10 +7,12 @@ using Repositories.Xml;
 using Solution;
 
 UserRepository userRepositoriesXml = new();
-ProjectRepository projectRepository = new();
 TimeTrackEntryRepository timeTrackEntryRepository = new();
 
-using var mediator = new Mediator(userRepositoriesXml, projectRepository, timeTrackEntryRepository);
+var userServices = new UserServices(userRepositoriesXml, timeTrackEntryRepository);
+
+using var mediator = new Mediator(userServices);
+
 mediator.SubscribeToNotify(Notification);
     
 var activeUsers = mediator.GetUsersData(true);

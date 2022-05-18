@@ -10,7 +10,7 @@ namespace Business.Services
         private static IRepository<User> _userRepository { get; set; }
         private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
 
-        public UserServices(IRepository<User> usersRepository, IRepository<Project> _projectRepository, IRepository<TimeTrackEntry> timeTrackEntriesRepository)
+        public UserServices(IRepository<User> usersRepository, IRepository<TimeTrackEntry> timeTrackEntriesRepository)
         {
             _userRepository = usersRepository;
             _timeTrackEntryRepository = timeTrackEntriesRepository;

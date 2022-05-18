@@ -17,20 +17,13 @@ namespace Solution
 {
     public class Mediator : IDisposable
     {
-        private static IRepository<User> _userRepository;
-        private static IRepository<Project> _projectRepository;
-        private static IRepository<TimeTrackEntry> _timeTrackEntryRepository;
-
         private bool _disposed = false;
 
         private readonly Queue<Action> _queueActionsTimeTrack = new();
 
-        public Mediator(IRepository<User> userRepository, IRepository<Project> projectRepository, IRepository<TimeTrackEntry> timeTrackEntryRepository)
+        public Mediator(UserServices userServices)
         {
-            _userRepository = userRepository;
-            _projectRepository = projectRepository;
-            _timeTrackEntryRepository = timeTrackEntryRepository;
-            UserServices = new UserServices(_userRepository, _projectRepository, _timeTrackEntryRepository);
+            UserServices = userServices;
         }
 
         public UserServices UserServices;
