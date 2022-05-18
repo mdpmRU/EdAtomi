@@ -10,10 +10,10 @@ namespace Business.Services
         private static IRepository<User> _userRepository { get; set; }
         private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
 
-        public UserServices(IRepository<User> u, IRepository<Project> p, IRepository<TimeTrackEntry> tte)
+        public UserServices(IRepository<User> usersRepository, IRepository<Project> _projectRepository, IRepository<TimeTrackEntry> timeTrackEntriesRepository)
         {
-            _userRepository = u;
-            _timeTrackEntryRepository = tte;
+            _userRepository = usersRepository;
+            _timeTrackEntryRepository = timeTrackEntriesRepository;
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -33,7 +33,7 @@ namespace Business.Services
             return Stubs.TimeTrackEntries
                 .Where(ent => ent.ProjectId == idProject && ent.Value >= time)
                 .Select(ent => ent.UserId)
-                .Select(i => GetUserData(i));
+                .Select(GetUserData);
         }
 
         public UserData GetUserData(int userID)

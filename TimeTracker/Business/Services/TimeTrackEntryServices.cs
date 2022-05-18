@@ -13,9 +13,9 @@ namespace Business.Services
     {
         private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
 
-        public TimeTrackEntryServices(IRepository<TimeTrackEntry> tte)
+        public TimeTrackEntryServices(IRepository<TimeTrackEntry> timeTrackEntriesRepository)
         {
-            _timeTrackEntryRepository = tte;
+            _timeTrackEntryRepository = timeTrackEntriesRepository;
         }
 
         public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry()

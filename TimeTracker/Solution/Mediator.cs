@@ -25,10 +25,10 @@ namespace Solution
 
         private readonly Queue<Action> _queueActionsTimeTrack = new();
 
-        public Mediator(IRepository<User> userRepository, IRepository<Project> projectRepositoryRepository, IRepository<TimeTrackEntry> timeTrackEntryRepository)
+        public Mediator(IRepository<User> userRepository, IRepository<Project> projectRepository, IRepository<TimeTrackEntry> timeTrackEntryRepository)
         {
             _userRepository = userRepository;
-            _projectRepository = projectRepositoryRepository;
+            _projectRepository = projectRepository;
             _timeTrackEntryRepository = timeTrackEntryRepository;
             UserServices = new UserServices(_userRepository, _projectRepository, _timeTrackEntryRepository);
         }

@@ -13,9 +13,9 @@ namespace Business.Services
     {
         private static IRepository<Project> _projectRepository { get; set; }
 
-        public ProjectServices(IRepository<Project> p)
+        public ProjectServices(IRepository<Project> projectsRepository)
         {
-            _projectRepository = p;
+            _projectRepository = projectsRepository;
 
         }
         public IEnumerable<Project> GetAllProjects()
