@@ -6,10 +6,10 @@ using DataContracts.Entities;
 using Repositories.Xml;
 using Solution;
 
-UserRepository userRepositoriesXml = new();
+UserRepository userRepositories = new();
 TimeTrackEntryRepository timeTrackEntryRepository = new();
 
-var userServices = new UserServices(userRepositoriesXml, timeTrackEntryRepository);
+var userServices = new UserServices(userRepositories, timeTrackEntryRepository);
 
 using var mediator = new Mediator(userServices);
 
