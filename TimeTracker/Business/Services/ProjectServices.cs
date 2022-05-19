@@ -11,7 +11,7 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        private static IRepository<Project> _projectRepository { get; set; }
+        private IRepository<Project> _projectRepository;
 
         public ProjectServices(IRepository<Project> projectsRepository)
         {

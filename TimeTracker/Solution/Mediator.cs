@@ -34,7 +34,7 @@ namespace Solution
 
         public UserData GetInUserData(int userId)
         {
-            var userData = UserServices.GetUserData(userId);
+            var userData = UserServices.GetUserDataById(userId);
             return userData;
         }
 
@@ -43,21 +43,21 @@ namespace Solution
             return active ? Pointer(UserServices.GetAllUsers) : Pointer(UserServices.GetAllActiveUsers);
         }
 
-        public void InsertProject(Project obj)
+        public void InsertProject(Project obj, IRepository<Project> repository)
         {
-            _projectRepository.Insert(obj);
+            repository.Insert(obj);
             NotifyMediator?.Invoke($"Проект {obj.Name} успешно добавлен");
         }
 
-        public void InsertUser(User obj)
+        public void InsertUser(User obj, IRepository<User> repository)
         {
-            _userRepository.Insert(obj);
+            repository.Insert(obj);
             NotifyMediator?.Invoke($"Пользователь {obj.FullName} успешно добавлен");
         }
 
-        public void InsertTimeTrack(TimeTrackEntry obj)
+        public void InsertTimeTrack(TimeTrackEntry obj, IRepository<TimeTrackEntry> repository)
         {
-            _queueActionsTimeTrack.Enqueue(() => _timeTrackEntryRepository.Insert(obj));
+            _queueActionsTimeTrack.Enqueue(() => repository.Insert(obj));
         }
 
         public void ApproveTimeTrack(bool claim)

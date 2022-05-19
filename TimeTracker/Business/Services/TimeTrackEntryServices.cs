@@ -11,7 +11,7 @@ namespace Business.Services
 {
     public class TimeTrackEntryServices
     {
-        private static IRepository<TimeTrackEntry> _timeTrackEntryRepository { get; set; }
+        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
 
         public TimeTrackEntryServices(IRepository<TimeTrackEntry> timeTrackEntriesRepository)
         {

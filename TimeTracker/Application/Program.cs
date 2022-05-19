@@ -22,6 +22,7 @@ foreach (var activeUser in activeUsers)
     Console.WriteLine(activeUser.User.FullName);
 }
 
+mediator.InsertUser(Stubs.Users.First(), userRepositories);
 
 void OnSubmitteddTimeChanged(int hours)
 {
