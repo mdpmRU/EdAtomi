@@ -16,7 +16,7 @@ namespace Repositories.Xml
             return Stubs.Projects.FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Project> GetEntriesForUserId(int Id)
+        public IEnumerable<Project> GetAllForUserId(int Id)
         {
             return Stubs.Projects.Where(p => p.LeaderUserId == Id);
         }

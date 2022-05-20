@@ -21,7 +21,7 @@ namespace Repositories.Xml
             return Stubs.TimeTrackEntries.Single(t => t.Id == id);
         }
 
-        public IEnumerable<TimeTrackEntry> GetEntriesForUserId(int Id)
+        public IEnumerable<TimeTrackEntry> GetAllForUserId(int Id)
         {
             return Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == Id);
         }
