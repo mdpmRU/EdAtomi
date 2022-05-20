@@ -12,9 +12,9 @@ namespace Business.Services
         private IRepository<User> _usersRepository;
         private IRepository<TimeTrackEntry> _timeTrackEntriesRepository;
 
-        public UserServices(IRepository<User> usersesRepository, IRepository<TimeTrackEntry> timeTrackEntriesesRepository)
+        public UserServices(IRepository<User> usersRepository, IRepository<TimeTrackEntry> timeTrackEntriesesRepository)
         {
-            _usersRepository = usersesRepository;
+            _usersRepository = usersRepository;
             _timeTrackEntriesRepository = timeTrackEntriesesRepository;
         }
 
