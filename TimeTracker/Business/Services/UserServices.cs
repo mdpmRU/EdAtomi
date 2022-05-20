@@ -20,7 +20,7 @@ namespace Business.Services
 
         public IEnumerable<UserData> GetAllUsers()
         {
-            return _usersRepository.GetAll().Select(u => u).Select(GetUserData);
+            return _usersRepository.GetAll().Select(GetUserData);
         }
 
         public IEnumerable<UserData> GetAllActiveUsers()
