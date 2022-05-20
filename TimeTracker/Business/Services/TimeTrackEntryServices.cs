@@ -18,7 +18,7 @@ namespace Business.Services
             _timeTrackEntryRepository = timeTrackEntriesRepository;
         }
 
-        public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntry()
+        public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntries()
         {
             return _timeTrackEntryRepository.GetAll();
         }

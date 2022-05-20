@@ -23,24 +23,24 @@ namespace Solution
 
         public Mediator(UserServices userServices)
         {
-            UserServices = userServices;
+            _userServices = userServices;
         }
 
-        public UserServices UserServices;
+        private UserServices _userServices;
 
         public event Action<string> NotifyMediator;
 
         public void SubscribeToNotify(Action<string> action) => NotifyMediator += action;
 
-        public UserData GetInUserData(int userId)
+        public UserData GetUserData(int userId)
         {
-            var userData = UserServices.GetUserDataById(userId);
+            var userData = _userServices.GetUserById(userId);
             return userData;
         }
 
         public IEnumerable<UserData> GetUsersData(bool active)
         {
-            return active ? Pointer(UserServices.GetAllUsers) : Pointer(UserServices.GetAllActiveUsers);
+            return active ? Pointer(_userServices.GetAllUsers) : Pointer(_userServices.GetAllActiveUsers);
         }
 
         public void InsertProject(Project obj, IRepository<Project> repository)
