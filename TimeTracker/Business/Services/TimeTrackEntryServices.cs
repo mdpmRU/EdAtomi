@@ -11,16 +11,16 @@ namespace Business.Services
 {
     public class TimeTrackEntryServices
     {
-        private IRepository<TimeTrackEntry> _timeTrackEntryRepository;
+        private IRepository<TimeTrackEntry> _timeTrackEntriesRepository;
 
-        public TimeTrackEntryServices(IRepository<TimeTrackEntry> timeTrackEntriesRepository)
+        public TimeTrackEntryServices(IRepository<TimeTrackEntry> timeTrackEntriesesRepository)
         {
-            _timeTrackEntryRepository = timeTrackEntriesRepository;
+            _timeTrackEntriesRepository = timeTrackEntriesesRepository;
         }
 
         public IEnumerable<TimeTrackEntry> GetAllTimeTrackEntries()
         {
-            return _timeTrackEntryRepository.GetAll();
+            return _timeTrackEntriesRepository.GetAll();
         }
     }
 }

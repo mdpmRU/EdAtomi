@@ -11,16 +11,16 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        private IRepository<Project> _projectRepository;
+        private IRepository<Project> _projectsRepository;
 
-        public ProjectServices(IRepository<Project> projectsRepository)
+        public ProjectServices(IRepository<Project> projectsesRepository)
         {
-            _projectRepository = projectsRepository;
+            _projectsRepository = projectsesRepository;
 
         }
         public IEnumerable<Project> GetAllProjects()
         {
-            return _projectRepository.GetAll();
+            return _projectsRepository.GetAll();
         }
     }
 }
