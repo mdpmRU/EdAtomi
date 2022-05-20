@@ -10,9 +10,9 @@ namespace Business.Services
     public class UserServices
     {
         private IRepository<User> _usersRepository;
-        private IRepository<TimeTrackEntry> _timeTrackEntriesRepository;
+        private IRepositoryForUserID<TimeTrackEntry> _timeTrackEntriesRepository;
 
-        public UserServices(IRepository<User> usersRepository, IRepository<TimeTrackEntry> timeTrackEntriesRepository)
+        public UserServices(IRepository<User> usersRepository, IRepositoryForUserID<TimeTrackEntry> timeTrackEntriesRepository)
         {
             _usersRepository = usersRepository;
             _timeTrackEntriesRepository = timeTrackEntriesRepository;
@@ -40,8 +40,8 @@ namespace Business.Services
 
         public UserData GetUserById(int userID)
         {
-            var user = _usersRepository.GetAll().Single(u => u.Id == userID);
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAll().Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
+            var user = _usersRepository.GetById(userID);
+            var timeTrackEntries = _timeTrackEntriesRepository.GetEntriesForUserId(user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
@@ -51,7 +51,7 @@ namespace Business.Services
 
         private UserData GetUserData(User user)
         {
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAll().Where(timeTrackEntry => timeTrackEntry.UserId == user.Id);
+            var timeTrackEntries = _timeTrackEntriesRepository.GetEntriesForUserId(user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)

@@ -9,11 +9,21 @@ using DataContracts.Entities;
 
 namespace Repositories.Xml
 {
-    public class TimeTrackEntryRepository: IRepository<TimeTrackEntry>
+    public class TimeTrackEntryRepository: IRepositoryForUserID<TimeTrackEntry>
     {
         public IEnumerable<TimeTrackEntry> GetAll()
         {
             return Stubs.TimeTrackEntries.ToList().AsReadOnly();
+        }
+
+        public TimeTrackEntry GetById(int id)
+        {
+            return Stubs.TimeTrackEntries.Single(t => t.Id == id);
+        }
+
+        public IEnumerable<TimeTrackEntry> GetEntriesForUserId(int Id)
+        {
+            return Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == Id);
         }
 
         public void Insert(TimeTrackEntry entity)

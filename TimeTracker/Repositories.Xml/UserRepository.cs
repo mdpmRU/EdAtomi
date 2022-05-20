@@ -18,6 +18,11 @@ namespace Repositories.Xml
             return Stubs.Users.ToList().AsReadOnly();
         }
 
+        public User GetById(int id)
+        {
+            return Stubs.Users.Single(u => u.Id == id);
+        }
+        
         public void Insert(User entity)
         {
             Stubs.Users.Add(entity);

@@ -6,6 +6,8 @@ namespace Contracts
     {
         public IEnumerable<T> GetAll();
 
+        public T GetById(int id);
+
         public void Insert(T entity);
     }
 
