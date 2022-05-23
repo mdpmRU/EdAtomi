@@ -19,24 +19,25 @@ namespace Solution
     {
         private bool _disposed = false;
 
-        private ArrayList _delegates = new ArrayList();
-        private UserData userData;
-
-        public UserServices userServices;
+        private Queue<Action> _actions = new Queue<Action>();
+        public UserServices UserServices;
         
 
         public Mediator(UserServices userServices)
         {
-            this.userServices = userServices;
+            UserServices = userServices;
         }
 
         public void SubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
         {
             userData.SubmittedTimeChanged += action;
-            _delegates.Add(action);
+            _actions.Enqueue(() => userData.SubmittedTimeChanged -= action);
         }
 
-        public void UnsubscribeToSubmittedTimeChanged(Action<int> action, UserData userData) => userData.SubmittedTimeChanged -= action;
+        public void UnsubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
+        {
+            userData.SubmittedTimeChanged -= action;
+        }
 
         public void Dispose()
         {
@@ -46,7 +47,7 @@ namespace Solution
 
         private void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -59,9 +60,10 @@ namespace Solution
 
         private void RemoveAllListeners()
         {
-            foreach (Action<int> d in _delegates) 
+            while (_actions.Count != 0)
             {
-                UnsubscribeToSubmittedTimeChanged(d,);
+                var action = _actions.Dequeue();
+                action();
             }
         }
     }
