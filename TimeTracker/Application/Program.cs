@@ -14,15 +14,6 @@ var userServices = new UserServices(userRepositories, timeTrackEntryRepository);
 using var mediator = new Mediator(userServices);
 
 mediator.SubscribeToNotify(Notification);
-    
-var activeUsers = mediator.GetUsersData(true);
-
-foreach (var activeUser in activeUsers)
-{
-    Console.WriteLine(activeUser.User.FullName);
-}
-
-mediator.InsertUser(Stubs.Users.First(), userRepositories);
 
 void OnSubmitteddTimeChanged(int hours)
 {
