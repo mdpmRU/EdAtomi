@@ -19,34 +19,50 @@ namespace Solution
     {
         private bool _disposed = false;
 
-        private readonly Queue<Action> _queueActionsTimeTrack = new();
+        private ArrayList _delegates = new ArrayList();
+        private UserData userData;
 
-        private UserServices _userServices;
+        public UserServices userServices;
+        
 
         public Mediator(UserServices userServices)
         {
-            _userServices = userServices;
+            this.userServices = userServices;
         }
 
-        public void SubscribeToNotify(Action<string> action) => NotifyMediator += action;
+        public void SubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
+        {
+            userData.SubmittedTimeChanged += action;
+            _delegates.Add(action);
+        }
+
+        public void UnsubscribeToSubmittedTimeChanged(Action<int> action, UserData userData) => userData.SubmittedTimeChanged -= action;
 
         public void Dispose()
         {
-            CleanUp(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        private void CleanUp(bool clean)
+        private void Dispose(bool disposing)
         {
             if (_disposed)
             {
-                if (clean)
+                if (disposing)
                 {
-                    NotifyMediator?.Invoke($"Очищено");
+                    RemoveAllListeners();
                     GC.Collect();
                 }
             }
             _disposed = true;
+        }
+
+        private void RemoveAllListeners()
+        {
+            foreach (Action<int> d in _delegates) 
+            {
+                UnsubscribeToSubmittedTimeChanged(d,);
+            }
         }
     }
 }

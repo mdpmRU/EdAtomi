@@ -13,7 +13,16 @@ var userServices = new UserServices(userRepositories, timeTrackEntryRepository);
 
 using var mediator = new Mediator(userServices);
 
-mediator.SubscribeToNotify(Notification);
+var a = mediator.userServices.GetUserById(1);
+
+mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged, a);
+a.SubmitTime(3, 4, "Raz");
+//mediator.UnsubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged, a);
+mediator.Dispose();
+a.SubmitTime(3, 4, "Raz");
+
+
+
 
 void OnSubmitteddTimeChanged(int hours)
 {
