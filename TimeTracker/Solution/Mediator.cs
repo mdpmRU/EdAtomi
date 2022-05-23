@@ -21,12 +21,12 @@ namespace Solution
 
         private readonly Queue<Action> _queueActionsTimeTrack = new();
 
+        private UserServices _userServices;
+
         public Mediator(UserServices userServices)
         {
             _userServices = userServices;
         }
-
-        private UserServices _userServices;
 
         public event Action<string> NotifyMediator;
 
@@ -72,8 +72,8 @@ namespace Solution
                 _queueActionsTimeTrack.Clear();
                 NotifyMediator.Invoke($"Отправка запросов отклонена");
             }
-
         }
+
         public void Dispose()
         {
             CleanUp(true);

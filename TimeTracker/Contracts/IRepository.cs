@@ -10,5 +10,4 @@ namespace Contracts
 
         public void Insert(T entity);
     }
-
 }
