@@ -41,7 +41,7 @@ namespace Business.Services
         public UserData GetUserById(int userID)
         {
             var user = _usersRepository.GetById(userID);
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUserId(user.Id);
+            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
@@ -51,7 +51,7 @@ namespace Business.Services
 
         private UserData GetUserData(User user)
         {
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUserId(user.Id);
+            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id);
             var userData = new UserData(user)
             {
                 SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)

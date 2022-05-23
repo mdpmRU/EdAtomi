@@ -9,6 +9,6 @@ namespace Contracts
 {
     public interface IRepositoryForUserID<T>: IRepository<T> where T : BaseEntity
     {
-        public IEnumerable<T> GetAllForUserId(int id);
+        public IEnumerable<T> GetAllForUser(int id);
     }
 }

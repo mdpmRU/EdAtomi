@@ -19,7 +19,7 @@ namespace Solution
     {
         private bool _disposed = false;
 
-        private Queue<Action> _actions = new Queue<Action>();
+        private List<Action> _actions = new();
         public UserServices UserServices;
         
 
@@ -31,12 +31,14 @@ namespace Solution
         public void SubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
         {
             userData.SubmittedTimeChanged += action;
-            _actions.Enqueue(() => userData.SubmittedTimeChanged -= action);
+            _actions.Add(() => userData.SubmittedTimeChanged -= action);
         }
 
         public void UnsubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
         {
             userData.SubmittedTimeChanged -= action;
+            _actions.Remove(() => userData.SubmittedTimeChanged -= action);
+
         }
 
         public void Dispose()
@@ -62,8 +64,9 @@ namespace Solution
         {
             while (_actions.Count != 0)
             {
-                var action = _actions.Dequeue();
+                var action = _actions.First();
                 action();
+                _actions.RemoveAt(0);
             }
         }
     }
