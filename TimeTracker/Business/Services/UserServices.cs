@@ -41,21 +41,15 @@ namespace Business.Services
         public UserData GetUserById(int userId)
         {
             var user = _usersRepository.GetById(userId);
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id);
-            var userData = new UserData(user)
-            {
-                SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
-            };
+            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id).ToList();
+            var userData = new UserData(user, timeTrackEntries);
             return userData;
         }
 
         private UserData GetUserData(User user)
         {
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id);
-            var userData = new UserData(user)
-            {
-                SubmittedTime = new List<TimeTrackEntry>(timeTrackEntries)
-            };
+            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id).ToList();
+            var userData = new UserData(user, timeTrackEntries);
             return userData;
         }
     }

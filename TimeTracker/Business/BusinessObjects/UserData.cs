@@ -10,14 +10,15 @@ namespace Business.BusinessObjects
 {
     public class UserData
     {
-        public UserData(User user)
+        public UserData(User user, List<TimeTrackEntry> submittedTime )
         {
             User = user;
+            SubmittedTime = submittedTime;
         }
 
         public User User { get; set; }
 
-        public List<TimeTrackEntry> SubmittedTime { get; set; }
+        public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
         public event Action<int> SubmittedTimeChanged;
 
