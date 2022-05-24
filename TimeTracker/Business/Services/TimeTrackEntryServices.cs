@@ -11,9 +11,9 @@ namespace Business.Services
 {
     public class TimeTrackEntryServices
     {
-        private ITimeTrackEntriesRepository<TimeTrackEntry> _timeTrackEntriesRepository;
+        private ITimeTrackEntriesRepository _timeTrackEntriesRepository;
 
-        public TimeTrackEntryServices(ITimeTrackEntriesRepository<TimeTrackEntry> timeTrackEntriesRepository)
+        public TimeTrackEntryServices(ITimeTrackEntriesRepository timeTrackEntriesRepository)
         {
             _timeTrackEntriesRepository = timeTrackEntriesRepository;
         }

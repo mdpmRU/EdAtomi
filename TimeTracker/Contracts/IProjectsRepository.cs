@@ -7,8 +7,8 @@ using DataContracts.Entities;
 
 namespace Contracts
 {
-    public interface IProjectsRepository<T> : IRepository<T> where T : BaseEntity
+    public interface IProjectsRepository : IRepository<Project>
     {
-        public IEnumerable<T> GetAllByLeader(int userId);
+        public IEnumerable<Project> GetAllByLeader(int userId);
     }
 }

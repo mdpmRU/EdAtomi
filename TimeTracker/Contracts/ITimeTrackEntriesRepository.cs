@@ -7,8 +7,8 @@ using DataContracts.Entities;
 
 namespace Contracts
 {
-    public interface ITimeTrackEntriesRepository<T> : IRepository<T> where T : BaseEntity
+    public interface ITimeTrackEntriesRepository : IRepository<TimeTrackEntry>
     {
-        public IEnumerable<T> GetAllForUser(int userId);
+        public IEnumerable<TimeTrackEntry> GetAllForUser(int userId);
     }
 }

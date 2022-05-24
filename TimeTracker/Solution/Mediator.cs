@@ -21,26 +21,21 @@ namespace Solution
 
         public Dictionary<Guid,Action<int>> _subscriptions = new();
         
-        public void RaiseSubmittedTimeChanged(UserData userData, Guid guid)
+        public void RaiseSubmittedTimeChanged(UserData userData)
         {
-            userData.SubmittedTimeChanged += _subscriptions[guid];
-        }
 
-        public void LowerSubmittedTimeChanged(UserData userData, Guid guid)
-        {
-            userData.SubmittedTimeChanged -= _subscriptions[guid];
         }
-
+        
         public Guid SubscribeToSubmittedTimeChanged(Action<int> action)
         {
-            var guid = Guid.NewGuid();
-            _subscriptions.Add(guid, action);
-            return guid;
+            var subscriptionId = Guid.NewGuid();
+            _subscriptions.Add(subscriptionId, action);
+            return subscriptionId;
         }
 
-        public void UnsubscribeFromSubmittedTimeChanged(Guid guid)
+        public void UnsubscribeFromSubmittedTimeChanged(Guid subscriptionId)
         {
-            _subscriptions.Remove(guid);
+            _subscriptions.Remove(subscriptionId);
         }
 
         public void Dispose()

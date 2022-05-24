@@ -11,9 +11,9 @@ namespace Business.Services
 {
     public class ProjectServices
     {
-        private IProjectsRepository<Project> _projectsRepository;
+        private IProjectsRepository _projectsRepository;
 
-        public ProjectServices(IProjectsRepository<Project> projectsRepository)
+        public ProjectServices(IProjectsRepository projectsRepository)
         {
             _projectsRepository = projectsRepository;
         }

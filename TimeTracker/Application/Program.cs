@@ -6,20 +6,16 @@ using DataContracts.Entities;
 using Repositories.Xml;
 using Solution;
 
-UserRepository userRepositories = new();
+UserRepository userRepository = new();
 TimeTrackEntryRepository timeTrackEntryRepository = new();
 
-var userServices = new UserServices(userRepositories, timeTrackEntryRepository);
+var userServices = new UserServices(userRepository, timeTrackEntryRepository);
 
 using var mediator = new Mediator();
 
 var a = userServices.GetUserById(1);
 var id = mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged);
-mediator.RaiseSubmittedTimeChanged(a, id);
 a.SubmitTime(3, 4, "Raz");
-a.ClearSubmittedTimeChanged();
-mediator.RaiseSubmittedTimeChanged(a, id);
-mediator.Dispose();
 a.SubmitTime(3, 4, "Raz");
 a.SubmitTime(3, 4, "Raz");
 

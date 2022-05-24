@@ -16,7 +16,7 @@ namespace Business.BusinessObjects
             SubmittedTime = submittedTime;
         }
 
-        public User User { get; set; }
+        public User User { get; private set; }
 
         public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
@@ -38,11 +38,6 @@ namespace Business.BusinessObjects
             SubmittedTime.Add(timeTrackEntry);
             var allHours = SubmittedTime.Select(h => h.Value).Sum();
             SubmittedTimeChanged?.Invoke(allHours);
-        }
-
-        public void ClearSubmittedTimeChanged()
-        {
-            SubmittedTimeChanged = null;
         }
     }
 }
