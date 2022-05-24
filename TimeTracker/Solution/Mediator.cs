@@ -19,24 +19,23 @@ namespace Solution
     {
         private bool _disposed = false;
 
-        private List<Action> _actions = new();
-        public UserServices UserServices;
-
-        public Mediator(UserServices userServices)
+        public Dictionary<Guid,Action<int>> _subscriptions = new();
+        
+        public void RaiseSubmittedTimeChanged(UserData userData, Guid guid)
         {
-            UserServices = userServices;
+            userData.SubmittedTimeChanged += _subscriptions[guid];
         }
 
-        public void SubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
+        public Guid SubscribeToSubmittedTimeChanged(Action<int> action)
         {
-            userData.SubmittedTimeChanged += action;
-            _actions.Add(() => userData.SubmittedTimeChanged -= action);
+            var guid = Guid.NewGuid();
+            _subscriptions.Add(guid, action);
+            return guid;
         }
 
-        public void UnsubscribeToSubmittedTimeChanged(Action<int> action, UserData userData)
+        public void UnsubscribeFromSubmittedTimeChanged(Guid guid)
         {
-            userData.SubmittedTimeChanged -= action;
-            _actions.Remove(() => userData.SubmittedTimeChanged -= action);
+            _subscriptions.Remove(guid);
         }
 
         public void Dispose()
@@ -51,21 +50,11 @@ namespace Solution
             {
                 if (disposing)
                 {
-                    RemoveAllListeners();
+                    _subscriptions.Clear();
                     GC.Collect();
                 }
             }
             _disposed = true;
-        }
-
-        private void RemoveAllListeners()
-        {
-            while (_actions.Count != 0)
-            {
-                var action = _actions.First();
-                action();
-                _actions.RemoveAt(0);
-            }
         }
     }
 }

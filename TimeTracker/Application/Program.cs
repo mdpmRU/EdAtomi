@@ -11,14 +11,12 @@ TimeTrackEntryRepository timeTrackEntryRepository = new();
 
 var userServices = new UserServices(userRepositories, timeTrackEntryRepository);
 
-using var mediator = new Mediator(userServices);
+using var mediator = new Mediator();
 
-var a = mediator.UserServices.GetUserById(1);
-
-mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged, a);
-mediator.SubscribeToSubmittedTimeChanged(Notification, a);
+var a = userServices.GetUserById(1);
+var id = mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged);
+mediator.RaiseSubmittedTimeChanged(a, id);
 a.SubmitTime(3, 4, "Raz");
-//mediator.UnsubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged, a);
 mediator.Dispose();
 a.SubmitTime(3, 4, "Raz");
 a.SubmitTime(3, 4, "Raz");
