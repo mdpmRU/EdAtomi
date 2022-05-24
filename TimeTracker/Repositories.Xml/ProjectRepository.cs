@@ -4,7 +4,7 @@ using DataContracts.Entities;
 
 namespace Repositories.Xml
 {
-    public class ProjectRepository : IRepositoryForUserID<Project>
+    public class ProjectRepository : IProjectsRepository<Project>
     {
         public IEnumerable<Project> GetAll()
         {
@@ -16,7 +16,7 @@ namespace Repositories.Xml
             return Stubs.Projects.FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Project> GetAllForUser(int userId)
+        public IEnumerable<Project> GetAllByLeader(int userId)
         {
             return Stubs.Projects.Where(p => p.LeaderUserId == userId);
         }

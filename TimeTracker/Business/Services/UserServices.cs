@@ -10,9 +10,9 @@ namespace Business.Services
     public class UserServices
     {
         private IRepository<User> _usersRepository;
-        private IRepositoryForUserID<TimeTrackEntry> _timeTrackEntriesRepository;
+        private ITimeTrackEntriesRepository<TimeTrackEntry> _timeTrackEntriesRepository;
 
-        public UserServices(IRepository<User> usersRepository, IRepositoryForUserID<TimeTrackEntry> timeTrackEntriesRepository)
+        public UserServices(IRepository<User> usersRepository, ITimeTrackEntriesRepository<TimeTrackEntry> timeTrackEntriesRepository)
         {
             _usersRepository = usersRepository;
             _timeTrackEntriesRepository = timeTrackEntriesRepository;
