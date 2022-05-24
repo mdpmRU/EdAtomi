@@ -38,9 +38,9 @@ namespace Business.Services
                 .Select(GetUserById);
         }
 
-        public UserData GetUserById(int userID)
+        public UserData GetUserById(int userId)
         {
-            var user = _usersRepository.GetById(userID);
+            var user = _usersRepository.GetById(userId);
             var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id);
             var userData = new UserData(user)
             {

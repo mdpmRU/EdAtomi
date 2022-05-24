@@ -21,7 +21,6 @@ namespace Solution
 
         private List<Action> _actions = new();
         public UserServices UserServices;
-        
 
         public Mediator(UserServices userServices)
         {
@@ -38,7 +37,6 @@ namespace Solution
         {
             userData.SubmittedTimeChanged -= action;
             _actions.Remove(() => userData.SubmittedTimeChanged -= action);
-
         }
 
         public void Dispose()

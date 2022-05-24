@@ -19,9 +19,6 @@ namespace Business.BusinessObjects
 
         public List<TimeTrackEntry> SubmittedTime { get; set; }
 
-        //public delegate void SubmittedTimeChangedEventHandler(int submittedTime);
-        //public event SubmittedTimeChangedEventHandler SubmittedTimeChanged;
-
         public event Action<int> SubmittedTimeChanged;
 
         public void SubmitTime(int projectId, int hours, string comment)

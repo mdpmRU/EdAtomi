@@ -16,8 +16,8 @@ namespace Business.Services
         public ProjectServices(IRepositoryForUserID<Project> projectsRepository)
         {
             _projectsRepository = projectsRepository;
-
         }
+
         public IEnumerable<Project> GetAllProjects()
         {
             return _projectsRepository.GetAll();
