@@ -17,6 +17,8 @@ var a = userServices.GetUserById(1);
 var id = mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged);
 mediator.RaiseSubmittedTimeChanged(a, id);
 a.SubmitTime(3, 4, "Raz");
+a.ClearSubmittedTimeChanged();
+mediator.RaiseSubmittedTimeChanged(a, id);
 mediator.Dispose();
 a.SubmitTime(3, 4, "Raz");
 a.SubmitTime(3, 4, "Raz");

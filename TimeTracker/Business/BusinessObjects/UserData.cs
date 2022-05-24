@@ -38,6 +38,11 @@ namespace Business.BusinessObjects
             SubmittedTime.Add(timeTrackEntry);
             var allHours = SubmittedTime.Select(h => h.Value).Sum();
             SubmittedTimeChanged?.Invoke(allHours);
-        }   
+        }
+
+        public void ClearSubmittedTimeChanged()
+        {
+            SubmittedTimeChanged = null;
+        }
     }
 }

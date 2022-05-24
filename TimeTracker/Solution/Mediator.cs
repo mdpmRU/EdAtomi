@@ -26,6 +26,11 @@ namespace Solution
             userData.SubmittedTimeChanged += _subscriptions[guid];
         }
 
+        public void LowerSubmittedTimeChanged(UserData userData, Guid guid)
+        {
+            userData.SubmittedTimeChanged -= _subscriptions[guid];
+        }
+
         public Guid SubscribeToSubmittedTimeChanged(Action<int> action)
         {
             var guid = Guid.NewGuid();
