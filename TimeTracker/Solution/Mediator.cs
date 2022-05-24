@@ -23,7 +23,8 @@ namespace Solution
         
         public void RaiseSubmittedTimeChanged(UserData userData)
         {
-
+            foreach (var subscriptionId in _subscriptions.Keys)
+                userData.SubmittedTimeChanged += _subscriptions[subscriptionId];
         }
         
         public Guid SubscribeToSubmittedTimeChanged(Action<int> action)
