@@ -13,7 +13,7 @@ namespace Repositories.Xml
 
         public Project GetById(int id)
         {
-            return Stubs.Projects.FirstOrDefault(p => p.Id == id);
+            return Stubs.Projects.Single(p => p.Id == id);
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)

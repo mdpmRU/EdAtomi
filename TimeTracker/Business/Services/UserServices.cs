@@ -41,9 +41,7 @@ namespace Business.Services
         public UserData GetUserById(int userId)
         {
             var user = _usersRepository.GetById(userId);
-            var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id).ToList();
-            var userData = new UserData(user, timeTrackEntries);
-            return userData;
+            return GetUserData(user);
         }
 
         private UserData GetUserData(User user)
