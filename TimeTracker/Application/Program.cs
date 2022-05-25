@@ -9,21 +9,25 @@ using Solution;
 UserRepository userRepository = new();
 TimeTrackEntryRepository timeTrackEntryRepository = new();
 
-var userServices = new UserServices(userRepository, timeTrackEntryRepository);
+void OnSubmitteddTimeChanged(UserData userData)
+{
+    userData.SubmittedTimeChanged += Notification;
+}
+
+void Notification(int hours)
+{
+    Console.WriteLine($"Общая сумма часов:{hours} ");
+}
 
 using var mediator = new Mediator();
+var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator, OnSubmitteddTimeChanged);
 
 var firstUser = userServices.GetUserById(1);
+firstUser.SubmitTime(2,4,"RAz");
+
 var secondUser = userServices.GetUserById(3);
-var subscriptionId = mediator.SubscribeToSubmittedTimeChanged(SubscribeToConcrete);
-secondUser.SubmitTime(3, 4, "Raz");
 
 
-void SubscribeToConcrete(UserData userData)
-{
-    userData.SubmittedTimeChanged += OnSubmitteddTimeChanged;
-}
-void OnSubmitteddTimeChanged(int hours)
-{
-    Console.WriteLine($"Общая сумма пользователя {secondUser.User.FullName} часов: {hours}");
-}
+
+
+

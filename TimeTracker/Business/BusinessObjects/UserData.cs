@@ -5,15 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
 using DataContracts.Entities;
+using Solution;
 
 namespace Business.BusinessObjects
 {
     public class UserData
     {
-        public UserData(User user, List<TimeTrackEntry> submittedTime)
+        private IMediator _mediator;
+        public UserData(User user, List<TimeTrackEntry> submittedTime, IMediator mediator, Action<UserData> onSubmitteddTimeChanged)
         {
             User = user;
             SubmittedTime = submittedTime;
+            _mediator = mediator;
+            _mediator.SubscribeToSubmittedTimeChanged(this, onSubmitteddTimeChanged);
         }
 
         public User User { get; private set; }
@@ -37,7 +41,8 @@ namespace Business.BusinessObjects
             };
             SubmittedTime.Add(timeTrackEntry);
             var allHours = SubmittedTime.Select(h => h.Value).Sum();
-            SubmittedTimeChanged?.Invoke(allHours);
+            _mediator.RaiseSubmittedTimeChanged(this);
+            SubmittedTimeChanged.Invoke(allHours);
         }
     }
 }

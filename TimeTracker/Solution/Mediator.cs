@@ -15,7 +15,7 @@ using Repositories.Xml;
 
 namespace Solution
 {
-    public class Mediator : IDisposable
+    public class Mediator : IDisposable, IMediator
     {
         private bool _disposed = false;
 
@@ -27,7 +27,7 @@ namespace Solution
                 _subscriptions[subscriptionId](userData);
         }
 
-        public Guid SubscribeToSubmittedTimeChanged(Action<UserData> action)
+        public Guid SubscribeToSubmittedTimeChanged(UserData userData, Action<UserData> action)
         {
             var subscriptionId = Guid.NewGuid();
             _subscriptions.Add(subscriptionId, action);

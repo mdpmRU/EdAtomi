@@ -4,6 +4,7 @@ using Business.BusinessObjects;
 using Contracts;
 using DataContracts;
 using DataContracts.Entities;
+using Solution;
 
 namespace Business.Services
 {
@@ -11,11 +12,15 @@ namespace Business.Services
     {
         private IRepository<User> _usersRepository;
         private ITimeTrackEntriesRepository _timeTrackEntriesRepository;
+        private IMediator _mediator;
+        private Action<UserData> _onSubmitteddTimeChanged;
 
-        public UserServices(IRepository<User> usersRepository, ITimeTrackEntriesRepository timeTrackEntriesRepository)
+        public UserServices(IRepository<User> usersRepository, ITimeTrackEntriesRepository timeTrackEntriesRepository, IMediator mediator, Action<UserData> onSubmitteddTimeChanged)
         {
             _usersRepository = usersRepository;
             _timeTrackEntriesRepository = timeTrackEntriesRepository;
+            _mediator = mediator;
+            _onSubmitteddTimeChanged = onSubmitteddTimeChanged;
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -47,7 +52,7 @@ namespace Business.Services
         private UserData GetUserData(User user)
         {
             var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id).ToList();
-            var userData = new UserData(user, timeTrackEntries);
+            var userData = new UserData(user, timeTrackEntries, _mediator, _onSubmitteddTimeChanged);
             return userData;
         }
     }
