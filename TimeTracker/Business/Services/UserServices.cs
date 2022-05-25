@@ -13,14 +13,18 @@ namespace Business.Services
         private IRepository<User> _usersRepository;
         private ITimeTrackEntriesRepository _timeTrackEntriesRepository;
         private IMediator _mediator;
-        private Action<UserData> _onSubmitteddTimeChanged;
 
-        public UserServices(IRepository<User> usersRepository, ITimeTrackEntriesRepository timeTrackEntriesRepository, IMediator mediator, Action<UserData> onSubmitteddTimeChanged)
+        public UserServices(IRepository<User> usersRepository, ITimeTrackEntriesRepository timeTrackEntriesRepository, IMediator mediator)
         {
             _usersRepository = usersRepository;
             _timeTrackEntriesRepository = timeTrackEntriesRepository;
             _mediator = mediator;
-            _onSubmitteddTimeChanged = onSubmitteddTimeChanged;
+            _mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
+        }
+
+        public void OnSubmittedTimeChanged()
+        {
+
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -52,7 +56,7 @@ namespace Business.Services
         private UserData GetUserData(User user)
         {
             var timeTrackEntries = _timeTrackEntriesRepository.GetAllForUser(user.Id).ToList();
-            var userData = new UserData(user, timeTrackEntries, _mediator, _onSubmitteddTimeChanged);
+            var userData = new UserData(user, timeTrackEntries, _mediator);
             return userData;
         }
     }
