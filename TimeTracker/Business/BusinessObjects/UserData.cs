@@ -23,7 +23,7 @@ namespace Business.BusinessObjects
 
         public void OnSubmittedTimeChanged(UserData userData)
         {
-            
+
         }
 
         public User User { get; private set; }
