@@ -12,12 +12,13 @@ namespace Business.BusinessObjects
     public class UserData
     {
         private IMediator _mediator;
-        public UserData(User user, List<TimeTrackEntry> submittedTime, IMediator mediator, Action<UserData> onSubmitteddTimeChanged)
+
+        public UserData(User user, List<TimeTrackEntry> submittedTime, IMediator mediator)
         {
             User = user;
             SubmittedTime = submittedTime;
             _mediator = mediator;
-            _mediator.SubscribeToSubmittedTimeChanged(this, onSubmitteddTimeChanged);
+            _mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
         }
 
         public User User { get; private set; }
@@ -25,6 +26,11 @@ namespace Business.BusinessObjects
         public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
         public event Action<int> SubmittedTimeChanged;
+
+        public void OnSubmittedTimeChanged()
+        {
+
+        }
 
         public void SubmitTime(int projectId, int hours, string comment)
         {
