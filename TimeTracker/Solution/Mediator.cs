@@ -20,7 +20,13 @@ namespace Solution
         private bool _disposed = false;
 
         public Dictionary<Guid,Action<UserData>> _subscriptions = new();
-        
+
+        public void RaiseSubmittedTimeChanged(UserData userData)
+        {
+            foreach (var subscriptionId in _subscriptions.Keys)
+                _subscriptions[subscriptionId](userData);
+        }
+
         public Guid SubscribeToSubmittedTimeChanged(Action<UserData> action)
         {
             var subscriptionId = Guid.NewGuid();
