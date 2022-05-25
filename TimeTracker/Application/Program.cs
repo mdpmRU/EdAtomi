@@ -16,7 +16,7 @@ void OnSubmitteddTimeChanged(UserData userData)
 
 
 using var mediator = new Mediator();
-var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator, OnSubmitteddTimeChanged);
+var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator);
 
 var firstUser = userServices.GetUserById(1);
 firstUser.SubmitTime(2,4,"RAz");

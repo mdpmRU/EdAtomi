@@ -5,6 +5,6 @@ namespace Solution;
 public interface IMediator
 {
     void RaiseSubmittedTimeChanged(UserData userData);
-    Guid SubscribeToSubmittedTimeChanged(UserData userData, Action<UserData> action);
+    Guid SubscribeToSubmittedTimeChanged(Action<UserData> action);
     void UnsubscribeFromSubmittedTimeChanged(Guid subscriptionId);
 }

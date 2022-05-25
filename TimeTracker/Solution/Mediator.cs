@@ -27,7 +27,7 @@ namespace Solution
                 _subscriptions[subscriptionId](userData);
         }
 
-        public Guid SubscribeToSubmittedTimeChanged(UserData userData, Action<UserData> action)
+        public Guid SubscribeToSubmittedTimeChanged(Action<UserData> action)
         {
             var subscriptionId = Guid.NewGuid();
             _subscriptions.Add(subscriptionId, action);
