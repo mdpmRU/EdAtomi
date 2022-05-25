@@ -10,7 +10,7 @@ namespace Business.BusinessObjects
 {
     public class UserData
     {
-        public UserData(User user, List<TimeTrackEntry> submittedTime )
+        public UserData(User user, List<TimeTrackEntry> submittedTime)
         {
             User = user;
             SubmittedTime = submittedTime;
@@ -21,12 +21,6 @@ namespace Business.BusinessObjects
         public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
         public event Action<int> SubmittedTimeChanged;
-
-        public void RaiseSubmittedTimeChanged(UserData userData, Dictionary<Guid, Action<UserData>> _subscriptions)
-        {
-            foreach (var subscriptionId in _subscriptions.Keys)
-                _subscriptions[subscriptionId](userData);
-        }
 
         public void SubmitTime(int projectId, int hours, string comment)
         {

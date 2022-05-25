@@ -16,7 +16,6 @@ using var mediator = new Mediator();
 var firstUser = userServices.GetUserById(1);
 var secondUser = userServices.GetUserById(3);
 var subscriptionId = mediator.SubscribeToSubmittedTimeChanged(SubscribeToConcrete);
-firstUser.RaiseSubmittedTimeChanged(secondUser, mediator._subscriptions);
 secondUser.SubmitTime(3, 4, "Raz");
 
 

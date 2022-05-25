@@ -19,7 +19,7 @@ namespace Solution
     {
         private bool _disposed = false;
 
-        public Dictionary<Guid,Action<UserData>> _subscriptions = new();
+        private Dictionary<Guid,Action<UserData>> _subscriptions = new();
 
         public void RaiseSubmittedTimeChanged(UserData userData)
         {
