@@ -22,7 +22,7 @@ namespace Business.Services
             _mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
         }
 
-        public void OnSubmittedTimeChanged()
+        public void OnSubmittedTimeChanged(UserData userData)
         {
 
         }

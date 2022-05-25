@@ -21,16 +21,16 @@ namespace Business.BusinessObjects
             _mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
         }
 
+        public void OnSubmittedTimeChanged(UserData userData)
+        {
+            
+        }
+
         public User User { get; private set; }
 
         public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
         public event Action<int> SubmittedTimeChanged;
-
-        public void OnSubmittedTimeChanged()
-        {
-
-        }
 
         public void SubmitTime(int projectId, int hours, string comment)
         {
@@ -47,8 +47,8 @@ namespace Business.BusinessObjects
             };
             SubmittedTime.Add(timeTrackEntry);
             var allHours = SubmittedTime.Select(h => h.Value).Sum();
+            SubmittedTimeChanged?.Invoke(allHours);
             _mediator.RaiseSubmittedTimeChanged(this);
-            SubmittedTimeChanged.Invoke(allHours);
         }
     }
 }
