@@ -22,6 +22,12 @@ namespace Business.BusinessObjects
 
         public event Action<int> SubmittedTimeChanged;
 
+        public void RaiseSubmittedTimeChanged(UserData userData, Dictionary<Guid, Action<UserData>> _subscriptions)
+        {
+            foreach (var subscriptionId in _subscriptions.Keys)
+                _subscriptions[subscriptionId](userData);
+        }
+
         public void SubmitTime(int projectId, int hours, string comment)
         {
             if (!User.IsActive)
