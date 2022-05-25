@@ -14,19 +14,16 @@ var userServices = new UserServices(userRepository, timeTrackEntryRepository);
 using var mediator = new Mediator();
 
 var firstUser = userServices.GetUserById(1);
-var subscriptionId = mediator.SubscribeToSubmittedTimeChanged(OnSubmitteddTimeChanged);
+var subscriptionId = mediator.SubscribeToSubmittedTimeChanged(Subscribe);
 mediator.RaiseSubmittedTimeChanged(firstUser);
 firstUser.SubmitTime(3, 4, "Raz");
 
+
+void Subscribe(UserData userData)
+{
+    userData.SubmittedTimeChanged += OnSubmitteddTimeChanged;
+}
 void OnSubmitteddTimeChanged(int hours)
 {
     Console.WriteLine($"Общая сумма часов: {hours}");
 }
-void Notification(int msg)
-{
-    Console.WriteLine(msg);
-}
-
-
-
-
