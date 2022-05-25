@@ -11,13 +11,9 @@ TimeTrackEntryRepository timeTrackEntryRepository = new();
 
 void OnSubmitteddTimeChanged(UserData userData)
 {
-    userData.SubmittedTimeChanged += Notification;
+    Console.WriteLine($"Общая сумма часов: {userData.SubmittedTime}");
 }
 
-void Notification(int hours)
-{
-    Console.WriteLine($"Общая сумма часов:{hours} ");
-}
 
 using var mediator = new Mediator();
 var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator, OnSubmitteddTimeChanged);
