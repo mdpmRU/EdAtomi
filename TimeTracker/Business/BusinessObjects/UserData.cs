@@ -5,22 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using DataContracts;
 using DataContracts.Entities;
+using Solution;
 
 namespace Business.BusinessObjects
 {
     public class UserData
     {
-        public UserData(User user)
+        private IMediator _mediator;
+
+        public UserData(User user, List<TimeTrackEntry> submittedTime, IMediator mediator)
         {
             User = user;
+            SubmittedTime = submittedTime;
+            _mediator = mediator;
+            _mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
         }
 
-        public User User { get; set; }
+        public void OnSubmittedTimeChanged(UserData userData)
+        {
 
-        public List<TimeTrackEntry> SubmittedTime { get; set; }
+        }
 
-        public delegate void SubmittedTimeChangedEventHandler(int submittedTime);
-        public event SubmittedTimeChangedEventHandler SubmittedTimeChanged;
+        public User User { get; private set; }
+
+        public int TotalSubmittedTime { get { return SubmittedTime.Select(h => h.Value).Sum(); } }
+
+        public List<TimeTrackEntry> SubmittedTime { get; private set; }
+
+        public event Action<int> SubmittedTimeChanged;
 
         public void SubmitTime(int projectId, int hours, string comment)
         {
@@ -36,8 +48,8 @@ namespace Business.BusinessObjects
                 Value = hours
             };
             SubmittedTime.Add(timeTrackEntry);
-            var allHours = SubmittedTime.Select(h => h.Value).Sum();
-            SubmittedTimeChanged?.Invoke(allHours);
-        }   
+            SubmittedTimeChanged?.Invoke(TotalSubmittedTime);
+            _mediator.RaiseSubmittedTimeChanged(this);
+        }
     }
 }

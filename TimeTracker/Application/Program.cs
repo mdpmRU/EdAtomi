@@ -1,22 +1,31 @@
 ﻿using Business;
 using Business.BusinessObjects;
 using Business.Services;
+using DataContracts;
 using DataContracts.Entities;
-using DataContracts.Entities.Enumerations;
+using Repositories.Xml;
+using Solution;
 
-var userServices = new UserServices();
+UserRepository userRepository = new();
+TimeTrackEntryRepository timeTrackEntryRepository = new();
 
-var user = userServices.GetUserData(1);
-user.SubmittedTimeChanged += OnSubmitteddTimeChanged;
-
-var activeUsers = userServices.GetUsersForProject(1);
-foreach (var activeUser in activeUsers)
+void OnSubmittedTimeChanged(UserData userData)
 {
-    Console.WriteLine(activeUser.User.FullName);
+    Console.WriteLine($"Общая сумма часов: {userData.TotalSubmittedTime}");
 }
 
-void OnSubmitteddTimeChanged(int hours)
-{
-    Console.WriteLine($"Общая сумма часов: {hours}");
-}
+using var mediator = new Mediator();
+var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator);
+
+mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
+
+
+var firstUser = userServices.GetUserById(1);
+firstUser.SubmitTime(2,4,"RAz");
+firstUser.SubmitTime(2, 4, "RAz");
+
+
+
+
+
 
