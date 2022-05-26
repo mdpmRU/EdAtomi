@@ -28,6 +28,8 @@ namespace Business.BusinessObjects
 
         public User User { get; private set; }
 
+        public int TotalSubmittedTime { get { return SubmittedTime.Select(h => h.Value).Sum(); } }
+
         public List<TimeTrackEntry> SubmittedTime { get; private set; }
 
         public event Action<int> SubmittedTimeChanged;
@@ -46,8 +48,7 @@ namespace Business.BusinessObjects
                 Value = hours
             };
             SubmittedTime.Add(timeTrackEntry);
-            var allHours = SubmittedTime.Select(h => h.Value).Sum();
-            SubmittedTimeChanged?.Invoke(allHours);
+            SubmittedTimeChanged?.Invoke(TotalSubmittedTime);
             _mediator.RaiseSubmittedTimeChanged(this);
         }
     }
