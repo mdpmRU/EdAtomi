@@ -9,5 +9,7 @@ namespace Contracts
         public T GetById(int id);
 
         public void Insert(T entity);
+
+        public void SaveAll(IEnumerable<T> listEntities);
     }
 }
