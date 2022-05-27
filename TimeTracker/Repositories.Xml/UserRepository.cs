@@ -16,7 +16,6 @@ namespace Repositories.Xml
     public class UserRepository : IRepository<User>
     {
         private XmlSerializer _xmlSerializer = new(typeof(List<User>));
-        private XmlSerializer _xmlSerializerU = new(typeof(User));
         private string filepath = "D:\\AtomiSoft\\EdAtomi\\TimeTracker\\Users.xml";
 
         public IEnumerable<User> GetAll()
@@ -33,22 +32,24 @@ namespace Repositories.Xml
             XDocument xdoc = XDocument.Load(filepath);
 
             //return Stubs.Users.Single(u => u.Id == id);
-            //using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate))
-            //{
-            var userXElement = xdoc.Element("ArrayOfUser").Elements("User").Single(u => u.Element("Id")?.Value == id.ToString());
-                var Id = userXElement.Element("Id")?.Value;
-                var Username = userXElement.Element("Username")?.Value;
-                var Password = userXElement.Element("Password")?.Value;
-                var FullName = userXElement.Element("FullName")?.Value;
-                var IsActive = userXElement.Element("IsActive")?.Value;
-                var AccessRole = userXElement.Element("IsActive")?.Value;
-                var Comment = userXElement.Element("IsActive")?.Value;
+            var user = xdoc.Element("ArrayOfUser").Elements("User").Single(u => u.Element("Id")?.Value == id.ToString());
+                var Id = user.Element("Id")?.Value;
+                var Username = user.Element("Username")?.Value;
+                var Password = user.Element("Password")?.Value;
+                var FullName = user.Element("FullName")?.Value;
+                var IsActive = user.Element("IsActive")?.Value;
+                var AccessRole = user.Element("AccessRole")?.Value;
+                var Comment = user.Element("Comment")?.Value;
                 return new User
                 {
-                    Id = Convert.ToInt32(Id), AccessRole = Role.Admin, FullName = FullName, Comment = Comment,
-                    IsActive = Convert.ToBoolean(IsActive), Password = Password, Username = Username
+                    Id = Convert.ToInt32(Id),
+                    AccessRole = ConvertRole(AccessRole),
+                    FullName = FullName,
+                    Comment = Comment,
+                    IsActive = Convert.ToBoolean(IsActive),
+                    Password = Password,
+                    Username = Username
                 };
-            //}
         }
         
         public void Insert(User entity)
@@ -62,6 +63,12 @@ namespace Repositories.Xml
             {
                 _xmlSerializer.Serialize(fs, listEntities);
             }
+        }
+
+        private Role ConvertRole(string role)
+        {
+            var r = Enum.Parse<Role>(role);
+            return r;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Contracts;
 using DataContracts;
@@ -26,7 +27,25 @@ namespace Repositories.Xml
 
         public TimeTrackEntry GetById(int id)
         {
-            return Stubs.TimeTrackEntries.Single(t => t.Id == id);
+            //return Stubs.TimeTrackEntries.Single(t => t.Id == id);
+            XDocument xdoc = XDocument.Load(filepath);
+            var timeTrackEntry = xdoc.Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Single(u => u.Element("Id")?.Value == id.ToString());
+            var Id = timeTrackEntry.Element("Id")?.Value;
+            var Comment = timeTrackEntry.Element("Comment")?.Value;
+            var Date = timeTrackEntry.Element("Date")?.Value;
+            var ProjectId = timeTrackEntry.Element("ProjectId")?.Value;
+            var UserId = timeTrackEntry.Element("UserId")?.Value;
+            var Value = timeTrackEntry.Element("Value")?.Value;
+
+            return new TimeTrackEntry
+            {
+                Id = Convert.ToInt32(Id),
+                Comment = Comment,
+                Date = Convert.ToDateTime(Date),
+                ProjectId = Convert.ToInt32(ProjectId),
+                UserId = Convert.ToInt32(UserId),
+                Value = Convert.ToInt32(Value)
+            };
         }
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
