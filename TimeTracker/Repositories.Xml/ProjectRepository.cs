@@ -9,12 +9,17 @@ namespace Repositories.Xml
     public class ProjectRepository : IProjectsRepository
     {
         private XmlSerializer _xmlSerializer = new(typeof(List<Project>));
-        private string filepath = "D:\\AtomiSoft\\EdAtomi\\TimeTracker\\Projects.xml";
+        private string _filepath;
+
+        public ProjectRepository(string filepath)
+        {
+            _filepath = filepath;
+        }
 
         public IEnumerable<Project> GetAll()
         {
             //return Stubs.Projects.ToList().AsReadOnly();
-            using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
             {
                 return _xmlSerializer.Deserialize(fs) as List<Project>;
             }
@@ -23,8 +28,40 @@ namespace Repositories.Xml
         public Project GetById(int id)
         {
             //return Stubs.Projects.Single(p => p.Id == id);
-            XDocument xdoc = XDocument.Load(filepath);
-            var project = xdoc.Element("ArrayOfProject").Elements("Project").Single(u => u.Element("Id")?.Value == id.ToString());
+            var project = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project").Single(u => u.Element("Id")?.Value == id.ToString());
+            return ConvertToEntity(project);
+
+        }
+
+        public IEnumerable<Project> GetAllByLeader(int userId)
+        {
+            //return Stubs.Projects.Where(p => p.LeaderUserId == userId);
+            var listProject = new List<Project>();
+            var listProjectXMl = XDocument.Load(_filepath).Element("ArrayOfProject")
+                ?.Elements("Project")
+                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
+            foreach (var project in listProjectXMl)
+            {
+                listProject.Add(ConvertToEntity(project));
+            }
+            return listProject;
+        }
+
+        public void Insert(Project entity)
+        {
+            Stubs.Projects.Add(entity);
+        }
+
+        public void SaveAll(IEnumerable<Project> listEntities)
+        {
+            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
+            {
+                _xmlSerializer.Serialize(fs, listEntities);
+            }
+        }
+
+        private Project ConvertToEntity(XElement project)
+        {
             var Id = project.Element("Id")?.Value;
             var ExpirationDate = project.Element("ExpirationDate")?.Value;
             var MaxHours = project.Element("ExpirationDate")?.Value;
@@ -40,47 +77,6 @@ namespace Repositories.Xml
                 Name = Name,
                 Comment = Comment
             };
-        }
-
-        public IEnumerable<Project> GetAllByLeader(int userId)
-        {
-            //return Stubs.Projects.Where(p => p.LeaderUserId == userId);
-            var listProject = new List<Project>();
-            var listProjectXMl = XDocument.Load(filepath).Element("ArrayOfProject")
-                ?.Elements("Project")
-                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
-            foreach (var project in listProjectXMl)
-            {
-                var Id = project.Element("Id")?.Value;
-                var ExpirationDate = project.Element("ExpirationDate")?.Value;
-                var MaxHours = project.Element("ExpirationDate")?.Value;
-                var LeaderUserId = project.Element("ExpirationDate")?.Value;
-                var Comment = project.Element("IsActive")?.Value;
-                var Name = project.Element("Name")?.Value;
-                listProject.Add(new Project
-                {
-                    Id = Convert.ToInt32(Id),
-                    ExpirationDate = Convert.ToDateTime(ExpirationDate),
-                    MaxHours = Convert.ToInt32(MaxHours),
-                    LeaderUserId = Convert.ToInt32(LeaderUserId),
-                    Name = Name,
-                    Comment = Comment
-                });
-            }
-            return listProject;
-        }
-
-        public void Insert(Project entity)
-        {
-            Stubs.Projects.Add(entity);
-        }
-
-        public void SaveAll(IEnumerable<Project> listEntities)
-        {
-            using (FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate))
-            {
-                _xmlSerializer.Serialize(fs, listEntities);
-            }
         }
     }
 }
