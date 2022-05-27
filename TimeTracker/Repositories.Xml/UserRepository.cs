@@ -25,30 +25,45 @@ namespace Repositories.Xml
 
         public IEnumerable<User> GetAll()
         {
-            //return Stubs.Users.ToList().AsReadOnly();
-            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
-            {
-                return _xmlSerializer.Deserialize(fs) as List<User>;
-            }
+            var listUsers = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
+            return listUsers.Select(ConvertToEntity).ToList();
         }
 
         public User GetById(int id)
         {
-            XDocument xdoc = XDocument.Load(_filepath);
-
-            //return Stubs.Users.Single(u => u.Id == id);
-            var user = xdoc.Element("ArrayOfUser").Elements("User").Single(u => u.Element("Id")?.Value == id.ToString());
+            var user = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User").Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(user);
         }
 
         public void Insert(User entity)
         {
-            Stubs.Users.Add(entity);
+            var xdoc = XDocument.Load(_filepath);
+            xdoc.Element("ArrayOfUser").Add(ConvertToElement(entity));
+            xdoc.Save(_filepath);
+        }
+        private XElement ConvertToElement(User user)
+        {
+            var entityXML = new XElement("User");
+            var Id = new XElement("Id", user.Id);
+            var Username = new XElement("Username", user.Username);
+            var Password = new XElement("Password", user.Password);
+            var FullName = new XElement("FullName", user.FullName);
+            var IsActive = new XElement("IsActive", user.IsActive);
+            var AccessRole = new XElement("AccessRole", user.AccessRole);
+            var Comment = new XElement("Comment", user.Comment);
+            entityXML.Add(Id);
+            entityXML.Add(Username);
+            entityXML.Add(Password);
+            entityXML.Add(FullName);
+            entityXML.Add(IsActive);
+            entityXML.Add(AccessRole);
+            entityXML.Add(Comment);
+            return entityXML;
         }
 
         public void SaveAll(IEnumerable<User> listEntities)
         {
-            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
+            using (var fs = new FileStream(_filepath, FileMode.Create))
             {
                 _xmlSerializer.Serialize(fs, listEntities);
             }

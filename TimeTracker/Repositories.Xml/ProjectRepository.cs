@@ -18,55 +18,61 @@ namespace Repositories.Xml
 
         public IEnumerable<Project> GetAll()
         {
-            //return Stubs.Projects.ToList().AsReadOnly();
-            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
-            {
-                return _xmlSerializer.Deserialize(fs) as List<Project>;
-            }
+            var listProjects = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project");
+            return listProjects.Select(ConvertToEntity).ToList();
         }
 
         public Project GetById(int id)
         {
-            //return Stubs.Projects.Single(p => p.Id == id);
             var project = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project").Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(project);
-
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
-            //return Stubs.Projects.Where(p => p.LeaderUserId == userId);
-            var listProject = new List<Project>();
-            var listProjectXMl = XDocument.Load(_filepath).Element("ArrayOfProject")
-                ?.Elements("Project")
-                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
-            foreach (var project in listProjectXMl)
-            {
-                listProject.Add(ConvertToEntity(project));
-            }
-            return listProject;
+            var listProjectXMl = XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project").Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
+            return listProjectXMl.Select(ConvertToEntity).ToList();
         }
 
         public void Insert(Project entity)
         {
-            Stubs.Projects.Add(entity);
+            var xdoc = XDocument.Load(_filepath);
+            xdoc.Element("ArrayOfProject").Add(ConvertToElement(entity));
+            xdoc.Save(_filepath);
         }
 
         public void SaveAll(IEnumerable<Project> listEntities)
         {
-            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
+            using (var fs = new FileStream(_filepath, FileMode.Create))
             {
                 _xmlSerializer.Serialize(fs, listEntities);
             }
+        }
+        private XElement ConvertToElement(Project project)
+        {
+            var entityXML = new XElement("Project");
+            var Id = new XElement("Id", project.Id);
+            var ExpirationDate = new XElement("ExpirationDate", project.ExpirationDate);
+            var MaxHours = new XElement("MaxHours", project.MaxHours);
+            var LeaderUserId = new XElement("LeaderUserId", project.LeaderUserId);
+            var Comment = new XElement("Comment", project.Comment);
+            var Name = new XElement("Name", project.Name);
+            entityXML.Add(Id);
+            entityXML.Add(ExpirationDate);
+            entityXML.Add(MaxHours);
+            entityXML.Add(LeaderUserId);
+            entityXML.Add(Comment);
+            entityXML.Add(Name);
+            return entityXML;
         }
 
         private Project ConvertToEntity(XElement project)
         {
             var Id = project.Element("Id")?.Value;
             var ExpirationDate = project.Element("ExpirationDate")?.Value;
-            var MaxHours = project.Element("ExpirationDate")?.Value;
-            var LeaderUserId = project.Element("ExpirationDate")?.Value;
-            var Comment = project.Element("IsActive")?.Value;
+            var MaxHours = project.Element("MaxHours")?.Value;
+            var LeaderUserId = project.Element("LeaderUserId")?.Value;
+            var Comment = project.Element("Comment")?.Value;
             var Name = project.Element("Name")?.Value;
             return new Project
             {
@@ -74,8 +80,8 @@ namespace Repositories.Xml
                 ExpirationDate = Convert.ToDateTime(ExpirationDate),
                 MaxHours = Convert.ToInt32(MaxHours),
                 LeaderUserId = Convert.ToInt32(LeaderUserId),
-                Name = Name,
-                Comment = Comment
+                Comment = Comment,
+                Name = Name
             };
         }
     }

@@ -1,3 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?><ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><User><Id>1</Id><Username>Man</Username><Password>123</Password><FullName>Human1</FullName><IsActive>true</IsActive><AccessRole>User</AccessRole></User><User><Id>2</Id><Username>Wowan</Username><Password>123</Password><FullName>Human2</FullName><IsActive>false</IsActive><AccessRole>User</AccessRole></User><User><Id>3</Id><Username>Wowan</Username><Password>123</Password><FullName>Human3</FullName><IsActive>true</IsActive><AccessRole>User</AccessRole></User></ArrayOfUser>Role>User</AccessRole>
-	</User>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Id>1</Id>
+    <Username>Man</Username>
+    <Password>123</Password>
+    <FullName>Human1</FullName>
+    <IsActive>true</IsActive>
+    <AccessRole>User</AccessRole>
+  </User>
+  <User>
+    <Id>2</Id>
+    <Username>Wowan</Username>
+    <Password>123</Password>
+    <FullName>Human2</FullName>
+    <IsActive>false</IsActive>
+    <AccessRole>User</AccessRole>
+  </User>
+  <User>
+    <Id>3</Id>
+    <Username>Wowan</Username>
+    <Password>123</Password>
+    <FullName>Human3</FullName>
+    <IsActive>true</IsActive>
+    <AccessRole>User</AccessRole>
+  </User>
+  <User>
+    <Id>10</Id>
+    <Username>Wowan</Username>
+    <Password>123</Password>
+    <FullName>Human3</FullName>
+    <IsActive>true</IsActive>
+    <AccessRole>User</AccessRole>
+    <Comment>Тестирование Insert</Comment>
+  </User>
 </ArrayOfUser>

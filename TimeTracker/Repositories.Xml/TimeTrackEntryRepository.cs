@@ -14,8 +14,8 @@ namespace Repositories.Xml
 {
     public class TimeTrackEntryRepository : ITimeTrackEntriesRepository
     {
-        private readonly XmlSerializer _xmlSerializer = new(typeof(List<TimeTrackEntry>));
-        private readonly string _filepath;
+        private XmlSerializer _xmlSerializer = new(typeof(List<TimeTrackEntry>));
+        private string _filepath;
 
         public TimeTrackEntryRepository(string filepath)
         {
@@ -24,21 +24,18 @@ namespace Repositories.Xml
 
         public IEnumerable<TimeTrackEntry> GetAll()
         {
-            //return Stubs.TimeTrackEntries.ToList().AsReadOnly();
-            var listTimeTrackEntryXml = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry");
-            return listTimeTrackEntryXml.Select(ConvertToEntity).ToList();
+            var listTimeTrackEntries = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry");
+            return listTimeTrackEntries.Select(ConvertToEntity).ToList();
         }
 
         public TimeTrackEntry GetById(int id)
         {
-            //return Stubs.TimeTrackEntries.Single(t => t.Id == id);
             var timeTrackEntry = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(timeTrackEntry);
         }
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
-            //return Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == userId);
             var listTimeTrackEntryXml = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Where(u => u.Element("UserId")?.Value == userId.ToString());
             return listTimeTrackEntryXml.Select(ConvertToEntity).ToList();
         }
@@ -48,12 +45,11 @@ namespace Repositories.Xml
             var xdoc = XDocument.Load(_filepath);
             xdoc.Element("ArrayOfTimeTrackEntry").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
-            //Stubs.TimeTrackEntries.Add(entity);
         }
 
         public void SaveAll(IEnumerable<TimeTrackEntry> listEntities)
         {
-            using (FileStream fs = new FileStream(_filepath, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(_filepath, FileMode.Create))
             {
                 _xmlSerializer.Serialize(fs, listEntities);
             }

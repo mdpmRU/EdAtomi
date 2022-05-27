@@ -3,6 +3,7 @@ using Business.BusinessObjects;
 using Business.Services;
 using DataContracts;
 using DataContracts.Entities;
+using DataContracts.Entities.Enumerations;
 using Repositories.Xml;
 using Solution;
 
@@ -20,12 +21,12 @@ void OnSubmittedTimeChanged(UserData userData)
 }
 
 
-//var listUsers = Stubs.Users;
-//var listProjects = Stubs.Projects;
-//var listTimeTrackEntries = Stubs.TimeTrackEntries;
-//timeTrackEntryRepository.SaveAll(listTimeTrackEntries);
-//userRepository.SaveAll(listUsers);
-//projectRepository.SaveAll(listProjects);
+var listUsers = Stubs.Users;
+var listProjects = Stubs.Projects;
+var listTimeTrackEntries = Stubs.TimeTrackEntries;
+timeTrackEntryRepository.SaveAll(listTimeTrackEntries);
+userRepository.SaveAll(listUsers);
+projectRepository.SaveAll(listProjects);
 
 var TTE = new TimeTrackEntry()
 {
@@ -33,41 +34,45 @@ var TTE = new TimeTrackEntry()
     Comment = "Тестирование Insert",
     Date = DateTime.Today,
     ProjectId = 1,
-    UserId = 1,
+    UserId = 11,
     Value = 12
 };
+var user = new User()
+{
+    Id = 10,
+    AccessRole = Role.User,
+    FullName = "Human3",
+    IsActive = true,
+    Password = "123",
+    Username = "Wowan",
+    Comment = "Тестирование Insert",
+};
+var project = new Project()
+{
+    Id = 10,
+    ExpirationDate = new DateTime(2015, 8, 20),
+    MaxHours = 13,
+    LeaderUserId = 11,
+    Name = "Dva",
+    Comment = "Тестирование Insert",
+};
+userRepository.Insert(user);
 timeTrackEntryRepository.Insert(TTE);
+projectRepository.Insert(project);
 
-//var user = userRepository.GetById(1);
-//Console.WriteLine(user.FullName);
+Console.WriteLine(userRepository.GetById(10).Comment);
+Console.WriteLine(timeTrackEntryRepository.GetById(10).Comment);
+Console.WriteLine(projectRepository.GetById(10).Comment);
 
-
-//var listProjectsXML = projectRepository.GetAll().ToList();
-//var listTimeTrackEntriesXML = timeTrackEntryRepository.GetAll().ToList();
-
-//userRepository.SaveAll(listUsers);
-
-//projectRepository.SaveAll(listProjects);
-
-
-
-
-
-
-
+timeTrackEntryRepository.GetAllForUser(11);
+projectRepository.GetAllByLeader(11);
 
 using var mediator = new Mediator();
 var userServices = new UserServices(userRepository, timeTrackEntryRepository, mediator);
 
-//mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
+mediator.SubscribeToSubmittedTimeChanged(OnSubmittedTimeChanged);
 
 
-//var firstUser = userServices.GetUserById(1);
-//firstUser.SubmitTime(2,4,"RAz");
-//firstUser.SubmitTime(2, 4, "RAz");
-
-
-
-
-
-
+var firstUser = userServices.GetUserById(1);
+firstUser.SubmitTime(2, 4, "RAz");
+firstUser.SubmitTime(2, 4, "RAz");
