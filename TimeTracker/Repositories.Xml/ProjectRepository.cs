@@ -38,13 +38,36 @@ namespace Repositories.Xml
                 MaxHours = Convert.ToInt32(MaxHours),
                 LeaderUserId = Convert.ToInt32(LeaderUserId),
                 Name = Name,
-                Comment = Comment,
+                Comment = Comment
             };
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
-            return Stubs.Projects.Where(p => p.LeaderUserId == userId);
+            //return Stubs.Projects.Where(p => p.LeaderUserId == userId);
+            var listProject = new List<Project>();
+            var listProjectXMl = XDocument.Load(filepath).Element("ArrayOfProject")
+                ?.Elements("Project")
+                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
+            foreach (var project in listProjectXMl)
+            {
+                var Id = project.Element("Id")?.Value;
+                var ExpirationDate = project.Element("ExpirationDate")?.Value;
+                var MaxHours = project.Element("ExpirationDate")?.Value;
+                var LeaderUserId = project.Element("ExpirationDate")?.Value;
+                var Comment = project.Element("IsActive")?.Value;
+                var Name = project.Element("Name")?.Value;
+                listProject.Add(new Project
+                {
+                    Id = Convert.ToInt32(Id),
+                    ExpirationDate = Convert.ToDateTime(ExpirationDate),
+                    MaxHours = Convert.ToInt32(MaxHours),
+                    LeaderUserId = Convert.ToInt32(LeaderUserId),
+                    Name = Name,
+                    Comment = Comment
+                });
+            }
+            return listProject;
         }
 
         public void Insert(Project entity)

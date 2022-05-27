@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,7 +51,28 @@ namespace Repositories.Xml
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
-            return Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == userId);
+            List<TimeTrackEntry> listTimeTrackEntry= new List<TimeTrackEntry>();
+            //return Stubs.TimeTrackEntries.Where(timeTrackEntry => timeTrackEntry.UserId == userId);
+            var xdoc = XDocument.Load(filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Where(u => u.Element("UserId")?.Value == userId.ToString());
+            foreach (var timeTrackEntry in xdoc)
+            {
+                var Id = timeTrackEntry.Element("Id")?.Value;
+                var Comment = timeTrackEntry.Element("Comment")?.Value;
+                var Date = timeTrackEntry.Element("Date")?.Value;
+                var ProjectId = timeTrackEntry.Element("ProjectId")?.Value;
+                var UserId = timeTrackEntry.Element("UserId")?.Value;
+                var Value = timeTrackEntry.Element("Value")?.Value;
+                listTimeTrackEntry.Add(new TimeTrackEntry
+                {
+                    Id = Convert.ToInt32(Id),
+                    Comment = Comment,
+                    Date = Convert.ToDateTime(Date),
+                    ProjectId = Convert.ToInt32(ProjectId),
+                    UserId = Convert.ToInt32(UserId),
+                    Value = Convert.ToInt32(Value)
+                });
+            }
+            return listTimeTrackEntry;
         }
 
         public void Insert(TimeTrackEntry entity)
