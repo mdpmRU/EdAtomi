@@ -31,7 +31,8 @@ namespace Repositories.Xml
 
         public User GetById(int id)
         {
-            var user = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User").Single(u => u.Element("Id")?.Value == id.ToString());
+            var user = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User")
+                .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(user);
         }
 
@@ -44,42 +45,42 @@ namespace Repositories.Xml
 
         private XElement ConvertToElement(User user)
         {
-            var entityXML = new XElement("User");
-            var Id = new XElement("Id", user.Id);
-            var Username = new XElement("Username", user.Username);
-            var Password = new XElement("Password", user.Password);
-            var FullName = new XElement("FullName", user.FullName);
-            var IsActive = new XElement("IsActive", user.IsActive);
-            var AccessRole = new XElement("AccessRole", user.AccessRole);
-            var Comment = new XElement("Comment", user.Comment);
-            entityXML.Add(Id);
-            entityXML.Add(Username);
-            entityXML.Add(Password);
-            entityXML.Add(FullName);
-            entityXML.Add(IsActive);
-            entityXML.Add(AccessRole);
-            entityXML.Add(Comment);
-            return entityXML;
+            var entityXml = new XElement("User");
+            var id = new XElement("Id", user.Id);
+            var username = new XElement("Username", user.Username);
+            var password = new XElement("Password", user.Password);
+            var fullName = new XElement("FullName", user.FullName);
+            var isActive = new XElement("IsActive", user.IsActive);
+            var accessRole = new XElement("AccessRole", user.AccessRole);
+            var comment = new XElement("Comment", user.Comment);
+            entityXml.Add(id);
+            entityXml.Add(username);
+            entityXml.Add(password);
+            entityXml.Add(fullName);
+            entityXml.Add(isActive);
+            entityXml.Add(accessRole);
+            entityXml.Add(comment);
+            return entityXml;
         }
 
         private User ConvertToEntity(XElement user)
         {
-            var Id = user.Element("Id")?.Value;
-            var Username = user.Element("Username")?.Value;
-            var Password = user.Element("Password")?.Value;
-            var FullName = user.Element("FullName")?.Value;
-            var IsActive = user.Element("IsActive")?.Value;
-            var AccessRole = user.Element("AccessRole")?.Value;
-            var Comment = user.Element("Comment")?.Value;
+            var id = user.Element("Id")?.Value;
+            var username = user.Element("Username")?.Value;
+            var password = user.Element("Password")?.Value;
+            var fullName = user.Element("FullName")?.Value;
+            var isActive = user.Element("IsActive")?.Value;
+            var accessRole = user.Element("AccessRole")?.Value;
+            var comment = user.Element("Comment")?.Value;
             return new User
             {
-                Id = Convert.ToInt32(Id),
-                AccessRole = Enum.Parse<Role>(AccessRole),
-                FullName = FullName,
-                Comment = Comment,
-                IsActive = Convert.ToBoolean(IsActive),
-                Password = Password,
-                Username = Username
+                Id = Convert.ToInt32(id),
+                AccessRole = Enum.Parse<Role>(accessRole),
+                FullName = fullName,
+                Comment = comment,
+                IsActive = Convert.ToBoolean(isActive),
+                Password = password,
+                Username = username
             };
         }
     }

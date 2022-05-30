@@ -45,38 +45,38 @@ namespace Repositories.Xml
 
         private XElement ConvertToElement(Project project)
         {
-            var entityXML = new XElement("Project");
-            var Id = new XElement("Id", project.Id);
-            var ExpirationDate = new XElement("ExpirationDate", project.ExpirationDate);
-            var MaxHours = new XElement("MaxHours", project.MaxHours);
-            var LeaderUserId = new XElement("LeaderUserId", project.LeaderUserId);
-            var Comment = new XElement("Comment", project.Comment);
-            var Name = new XElement("Name", project.Name);
-            entityXML.Add(Id);
-            entityXML.Add(ExpirationDate);
-            entityXML.Add(MaxHours);
-            entityXML.Add(LeaderUserId);
-            entityXML.Add(Comment);
-            entityXML.Add(Name);
-            return entityXML;
+            var entityXml = new XElement("Project");
+            var id = new XElement("Id", project.Id);
+            var expirationDate = new XElement("ExpirationDate", project.ExpirationDate);
+            var maxHours = new XElement("MaxHours", project.MaxHours);
+            var leaderUserId = new XElement("LeaderUserId", project.LeaderUserId);
+            var comment = new XElement("Comment", project.Comment);
+            var name = new XElement("Name", project.Name);
+            entityXml.Add(id);
+            entityXml.Add(expirationDate);
+            entityXml.Add(maxHours);
+            entityXml.Add(leaderUserId);
+            entityXml.Add(comment);
+            entityXml.Add(name);
+            return entityXml;
         }
 
         private Project ConvertToEntity(XElement project)
         {
-            var Id = project.Element("Id")?.Value;
-            var ExpirationDate = project.Element("ExpirationDate")?.Value;
-            var MaxHours = project.Element("MaxHours")?.Value;
-            var LeaderUserId = project.Element("LeaderUserId")?.Value;
-            var Comment = project.Element("Comment")?.Value;
-            var Name = project.Element("Name")?.Value;
+            var id = project.Element("Id")?.Value;
+            var expirationDate = project.Element("ExpirationDate")?.Value;
+            var maxHours = project.Element("MaxHours")?.Value;
+            var leaderUserId = project.Element("LeaderUserId")?.Value;
+            var comment = project.Element("Comment")?.Value;
+            var name = project.Element("Name")?.Value;
             return new Project
             {
-                Id = Convert.ToInt32(Id),
-                ExpirationDate = Convert.ToDateTime(ExpirationDate),
-                MaxHours = Convert.ToInt32(MaxHours),
-                LeaderUserId = Convert.ToInt32(LeaderUserId),
-                Comment = Comment,
-                Name = Name
+                Id = Convert.ToInt32(id),
+                ExpirationDate = Convert.ToDateTime(expirationDate),
+                MaxHours = Convert.ToInt32(maxHours),
+                LeaderUserId = Convert.ToInt32(leaderUserId),
+                Comment = comment,
+                Name = name
             };
         }
     }
