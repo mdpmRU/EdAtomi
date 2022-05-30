@@ -17,22 +17,22 @@ namespace Repositories.Xml
 
         public IEnumerable<Project> GetAll()
         {
-            var listProjects = GetEnumerable();
-            return listProjects.Select(ConvertToEntity).ToList();
+            var projects = GetElements();
+            return projects.Select(ConvertToEntity).ToList();
         }
 
         public Project GetById(int id)
         {
-            var project = GetEnumerable()
+            var project = GetElements()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(project);
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
-            var enumerableProjectsXMl = GetEnumerable()
+            var projects = GetElements()
                 .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
-            return enumerableProjectsXMl.Select(ConvertToEntity).ToList();
+            return projects.Select(ConvertToEntity).ToList();
         }
 
         public void Insert(Project entity)
@@ -41,7 +41,7 @@ namespace Repositories.Xml
             xdoc.Element("ArrayOfProject").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
         }
-        private IEnumerable<XElement> GetEnumerable()
+        private IEnumerable<XElement> GetElements()
         {
             return XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project");
         }

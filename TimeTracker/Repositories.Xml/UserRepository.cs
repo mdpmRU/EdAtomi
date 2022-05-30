@@ -24,13 +24,13 @@ namespace Repositories.Xml
 
         public IEnumerable<User> GetAll()
         {
-            var enumerableUsersXMl = GetEnumerable();
-            return enumerableUsersXMl.Select(ConvertToEntity).ToList();
+            var users = GetElements();
+            return users.Select(ConvertToEntity).ToList();
         }
 
         public User GetById(int id)
         {
-            var user = GetEnumerable()
+            var user = GetElements()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(user);
         }
@@ -42,7 +42,7 @@ namespace Repositories.Xml
             xdoc.Save(_filepath);
         }
 
-        private IEnumerable<XElement> GetEnumerable()
+        private IEnumerable<XElement> GetElements()
         {
             return XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
         }

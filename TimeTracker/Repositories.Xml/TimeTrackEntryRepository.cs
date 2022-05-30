@@ -23,22 +23,22 @@ namespace Repositories.Xml
 
         public IEnumerable<TimeTrackEntry> GetAll()
         {
-            var listTimeTrackEntries = GetEnumerable();
-            return listTimeTrackEntries.Select(ConvertToEntity).ToList();
+            var timeTrackEntries = GetElements();
+            return timeTrackEntries.Select(ConvertToEntity).ToList();
         }
 
         public TimeTrackEntry GetById(int id)
         {
-            var timeTrackEntry = GetEnumerable()
+            var timeTrackEntry = GetElements()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(timeTrackEntry);
         }
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
-            var enumerableTimeTrackEntriesXml = GetEnumerable()
+            var timeTrackEntries = GetElements()
                 .Where(u => u.Element("UserId")?.Value == userId.ToString());
-            return enumerableTimeTrackEntriesXml.Select(ConvertToEntity).ToList();
+            return timeTrackEntries.Select(ConvertToEntity).ToList();
         }
 
         public void Insert(TimeTrackEntry entity)
@@ -48,7 +48,7 @@ namespace Repositories.Xml
             xdoc.Save(_filepath);
         }
 
-        private IEnumerable<XElement> GetEnumerable()
+        private IEnumerable<XElement> GetElements()
         {
             return XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry");
         }
