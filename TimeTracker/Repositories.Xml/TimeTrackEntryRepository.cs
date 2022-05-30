@@ -47,14 +47,6 @@ namespace Repositories.Xml
             xdoc.Save(_filepath);
         }
 
-        public void SaveAll(IEnumerable<TimeTrackEntry> listEntities)
-        {
-            using (FileStream fs = new FileStream(_filepath, FileMode.Create))
-            {
-                _xmlSerializer.Serialize(fs, listEntities);
-            }
-        }
-
         private XElement ConvertToElement(TimeTrackEntry timeTrackEntry)
         {
             var entityXML = new XElement("TimeTrackEntry");

@@ -41,13 +41,6 @@ namespace Repositories.Xml
             xdoc.Save(_filepath);
         }
 
-        public void SaveAll(IEnumerable<Project> listEntities)
-        {
-            using (var fs = new FileStream(_filepath, FileMode.Create))
-            {
-                _xmlSerializer.Serialize(fs, listEntities);
-            }
-        }
         private XElement ConvertToElement(Project project)
         {
             var entityXML = new XElement("Project");

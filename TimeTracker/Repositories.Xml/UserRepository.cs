@@ -41,6 +41,7 @@ namespace Repositories.Xml
             xdoc.Element("ArrayOfUser").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
         }
+
         private XElement ConvertToElement(User user)
         {
             var entityXML = new XElement("User");
@@ -59,14 +60,6 @@ namespace Repositories.Xml
             entityXML.Add(AccessRole);
             entityXML.Add(Comment);
             return entityXML;
-        }
-
-        public void SaveAll(IEnumerable<User> listEntities)
-        {
-            using (var fs = new FileStream(_filepath, FileMode.Create))
-            {
-                _xmlSerializer.Serialize(fs, listEntities);
-            }
         }
 
         private User ConvertToEntity(XElement user)
