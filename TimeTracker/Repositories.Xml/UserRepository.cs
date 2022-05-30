@@ -15,7 +15,6 @@ namespace Repositories.Xml
 {
     public class UserRepository : IRepository<User>
     {
-        private XmlSerializer _xmlSerializer = new(typeof(List<User>));
         private string _filepath;
 
         public UserRepository(string filepath)
@@ -25,13 +24,13 @@ namespace Repositories.Xml
 
         public IEnumerable<User> GetAll()
         {
-            var enumerableUsersXMl = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
+            var enumerableUsersXMl = GetEnumerable();
             return enumerableUsersXMl.Select(ConvertToEntity).ToList();
         }
 
         public User GetById(int id)
         {
-            var user = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User")
+            var user = GetEnumerable()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(user);
         }
@@ -41,6 +40,11 @@ namespace Repositories.Xml
             var xdoc = XDocument.Load(_filepath);
             xdoc.Element("ArrayOfUser").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
+        }
+
+        private IEnumerable<XElement> GetEnumerable()
+        {
+            return XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
         }
 
         private XElement ConvertToElement(User user)

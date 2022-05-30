@@ -8,7 +8,6 @@ namespace Repositories.Xml
 {
     public class ProjectRepository : IProjectsRepository
     {
-        private XmlSerializer _xmlSerializer = new(typeof(List<Project>));
         private string _filepath;
 
         public ProjectRepository(string filepath)
@@ -18,20 +17,20 @@ namespace Repositories.Xml
 
         public IEnumerable<Project> GetAll()
         {
-            var listProjects = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project");
+            var listProjects = GetEnumerable();
             return listProjects.Select(ConvertToEntity).ToList();
         }
 
         public Project GetById(int id)
         {
-            var project = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project")
+            var project = GetEnumerable()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(project);
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
-            var enumerableProjectsXMl = XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project")
+            var enumerableProjectsXMl = GetEnumerable()
                 .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
             return enumerableProjectsXMl.Select(ConvertToEntity).ToList();
         }
@@ -41,6 +40,10 @@ namespace Repositories.Xml
             var xdoc = XDocument.Load(_filepath);
             xdoc.Element("ArrayOfProject").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
+        }
+        private IEnumerable<XElement> GetEnumerable()
+        {
+            return XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project");
         }
 
         private XElement ConvertToElement(Project project)

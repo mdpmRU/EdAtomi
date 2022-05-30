@@ -14,7 +14,6 @@ namespace Repositories.Xml
 {
     public class TimeTrackEntryRepository : ITimeTrackEntriesRepository
     {
-        private XmlSerializer _xmlSerializer = new(typeof(List<TimeTrackEntry>));
         private string _filepath;
 
         public TimeTrackEntryRepository(string filepath)
@@ -24,20 +23,20 @@ namespace Repositories.Xml
 
         public IEnumerable<TimeTrackEntry> GetAll()
         {
-            var listTimeTrackEntries = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry");
+            var listTimeTrackEntries = GetEnumerable();
             return listTimeTrackEntries.Select(ConvertToEntity).ToList();
         }
 
         public TimeTrackEntry GetById(int id)
         {
-            var timeTrackEntry = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry")
+            var timeTrackEntry = GetEnumerable()
                 .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(timeTrackEntry);
         }
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
-            var enumerableTimeTrackEntriesXml = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry")
+            var enumerableTimeTrackEntriesXml = GetEnumerable()
                 .Where(u => u.Element("UserId")?.Value == userId.ToString());
             return enumerableTimeTrackEntriesXml.Select(ConvertToEntity).ToList();
         }
@@ -47,6 +46,11 @@ namespace Repositories.Xml
             var xdoc = XDocument.Load(_filepath);
             xdoc.Element("ArrayOfTimeTrackEntry").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
+        }
+
+        private IEnumerable<XElement> GetEnumerable()
+        {
+            return XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry");
         }
 
         private XElement ConvertToElement(TimeTrackEntry timeTrackEntry)
