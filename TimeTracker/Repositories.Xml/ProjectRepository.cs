@@ -41,6 +41,7 @@ namespace Repositories.Xml
             xdoc.Element("ArrayOfProject").Add(ConvertToElement(entity));
             xdoc.Save(_filepath);
         }
+
         private IEnumerable<XElement> GetElements()
         {
             return XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project");

@@ -79,7 +79,6 @@ namespace Repositories.Xml
             var projectId = timeTrackEntry.Element("ProjectId")?.Value;
             var userId = timeTrackEntry.Element("UserId")?.Value;
             var value = timeTrackEntry.Element("Value")?.Value;
-
             return new TimeTrackEntry
             {
                 Id = Convert.ToInt32(id),
