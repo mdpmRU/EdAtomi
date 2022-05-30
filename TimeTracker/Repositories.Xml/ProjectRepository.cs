@@ -24,14 +24,16 @@ namespace Repositories.Xml
 
         public Project GetById(int id)
         {
-            var project = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project").Single(u => u.Element("Id")?.Value == id.ToString());
+            var project = XDocument.Load(_filepath).Element("ArrayOfProject").Elements("Project")
+                .Single(u => u.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(project);
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
-            var listProjectXMl = XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project").Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
-            return listProjectXMl.Select(ConvertToEntity).ToList();
+            var enumerableProjectsXMl = XDocument.Load(_filepath).Element("ArrayOfProject")?.Elements("Project")
+                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
+            return enumerableProjectsXMl.Select(ConvertToEntity).ToList();
         }
 
         public void Insert(Project entity)

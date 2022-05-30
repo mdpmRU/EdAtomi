@@ -36,8 +36,8 @@ namespace Repositories.Xml
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
-            var listTimeTrackEntryXml = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Where(u => u.Element("UserId")?.Value == userId.ToString());
-            return listTimeTrackEntryXml.Select(ConvertToEntity).ToList();
+            var enumerableTimeTrackEntriesXml = XDocument.Load(_filepath).Element("ArrayOfTimeTrackEntry").Elements("TimeTrackEntry").Where(u => u.Element("UserId")?.Value == userId.ToString());
+            return enumerableTimeTrackEntriesXml.Select(ConvertToEntity).ToList();
         }
 
         public void Insert(TimeTrackEntry entity)

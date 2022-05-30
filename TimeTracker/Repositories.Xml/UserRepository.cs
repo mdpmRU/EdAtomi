@@ -25,8 +25,8 @@ namespace Repositories.Xml
 
         public IEnumerable<User> GetAll()
         {
-            var listUsers = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
-            return listUsers.Select(ConvertToEntity).ToList();
+            var enumerableUsersXMl = XDocument.Load(_filepath).Element("ArrayOfUser").Elements("User");
+            return enumerableUsersXMl.Select(ConvertToEntity).ToList();
         }
 
         public User GetById(int id)
