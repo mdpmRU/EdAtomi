@@ -25,7 +25,7 @@ namespace Repositories.Xml
         public IEnumerable<User> GetAll()
         {
             var users = GetElements();
-            return users.Select(ConvertToEntity).ToList();
+            return users.Select(ConvertToEntity).ToList().AsReadOnly();
         }
 
         public User GetById(int id)

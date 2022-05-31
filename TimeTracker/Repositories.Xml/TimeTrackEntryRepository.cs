@@ -24,21 +24,21 @@ namespace Repositories.Xml
         public IEnumerable<TimeTrackEntry> GetAll()
         {
             var timeTrackEntries = GetElements();
-            return timeTrackEntries.Select(ConvertToEntity).ToList();
+            return timeTrackEntries.Select(ConvertToEntity).ToList().AsReadOnly();
         }
 
         public TimeTrackEntry GetById(int id)
         {
             var timeTrackEntry = GetElements()
-                .Single(u => u.Element("Id")?.Value == id.ToString());
+                .Single(t => t.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(timeTrackEntry);
         }
 
         public IEnumerable<TimeTrackEntry> GetAllForUser(int userId)
         {
             var timeTrackEntries = GetElements()
-                .Where(u => u.Element("UserId")?.Value == userId.ToString());
-            return timeTrackEntries.Select(ConvertToEntity).ToList();
+                .Where(t => t.Element("UserId")?.Value == userId.ToString());
+            return timeTrackEntries.Select(ConvertToEntity).ToList().AsReadOnly();
         }
 
         public void Insert(TimeTrackEntry entity)

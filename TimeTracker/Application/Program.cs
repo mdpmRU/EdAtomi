@@ -8,9 +8,9 @@ using Repositories.Xml;
 using Solution;
 
 
-const string projectsFilePath = "..\\..\\..\\..\\Projects.xml";
-const string usersFilePath = "..\\..\\..\\..\\Users.xml";
-const string timeTrackEntriesFilePath = "..\\..\\..\\..\\TimeTrackEntries.xml";
+const string projectsFilePath = "Projects.xml";
+const string usersFilePath = "Users.xml";
+const string timeTrackEntriesFilePath = "TimeTrackEntries.xml";
 UserRepository userRepository = new(usersFilePath);
 TimeTrackEntryRepository timeTrackEntryRepository = new(timeTrackEntriesFilePath);
 ProjectRepository projectRepository = new(projectsFilePath);

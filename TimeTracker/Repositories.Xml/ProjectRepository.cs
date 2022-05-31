@@ -18,21 +18,21 @@ namespace Repositories.Xml
         public IEnumerable<Project> GetAll()
         {
             var projects = GetElements();
-            return projects.Select(ConvertToEntity).ToList();
+            return projects.Select(ConvertToEntity).ToList().AsReadOnly();
         }
 
         public Project GetById(int id)
         {
             var project = GetElements()
-                .Single(u => u.Element("Id")?.Value == id.ToString());
+                .Single(p => p.Element("Id")?.Value == id.ToString());
             return ConvertToEntity(project);
         }
 
         public IEnumerable<Project> GetAllByLeader(int userId)
         {
             var projects = GetElements()
-                .Where(u => u.Element("LeaderUserId")?.Value == userId.ToString());
-            return projects.Select(ConvertToEntity).ToList();
+                .Where(p => p.Element("LeaderUserId")?.Value == userId.ToString());
+            return projects.Select(ConvertToEntity).ToList().AsReadOnly();
         }
 
         public void Insert(Project entity)
